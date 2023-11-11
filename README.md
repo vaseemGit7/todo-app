@@ -1,2 +1,2 @@
 # todo-app
-A ToDO app to manage our daily tasks
+A ToDo app to manage our daily tasks
