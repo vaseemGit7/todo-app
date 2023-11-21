@@ -1,3 +1,11 @@
-import myTasks from "./modules/projects";
+import Projects from "./modules/projects";
 
-console.log(myTasks);
+const newProject = new Projects();
+
+newProject.getTasks();
+
+newProject.createTask();
+
+newProject.addTasks();
+
+console.log(newProject.myTasks);
