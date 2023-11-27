@@ -1,15 +1,11 @@
-const projects = (()=>{
-    class Project {
-        constructor(){
-            this.projectTasks = [];
-        }
+export default class Project {
+    constructor(){
+        this.tasks = [];
     }
 
-    const newProject = new Project(); 
-
-    return{
-        newProject,
+    addTask(task){
+        this.tasks.push(task);
     }
-})()
+}
 
-export default projects;
+
