@@ -1,16 +1,17 @@
-// import tasks from "./modules/tasks";
-// import projects from "./modules/projects";
+import todoManager from "./modules/todomanager";
 
-// const addBtn = document.getElementById('addBtn');
+const addBtn = document.getElementById('addBtn');
+const newProject = todoManager.createProject();
 
-// addBtn.addEventListener('click',()=>{
-//     let title = prompt("Enter the task title");
-//     let description = prompt("Enter the task description");
-//     let date = parseInt(prompt("Enter the task's date"));
-//     const newTask = tasks.createTask(title,description,date);
+addBtn.addEventListener('click',()=>{
+    let title = prompt("Enter the task title");
+    let description = prompt("Enter the task description");
+    let date = parseInt(prompt("Enter the task's date"));
 
-//     projects.newProject.projectTasks.push(newTask);
-//     console.log("It clicked but didn't worked");
-//     console.log(projects.newProject.projectTasks);
-// })
-// console.log(projects.newProject.projectTasks);
+    const newTask = todoManager.createTask(title,description,date);
+
+    todoManager.addTaskToProject(newProject,newTask);
+    
+    console.log("It clicked and worked");
+    console.log(newProject.tasks);
+})
