@@ -1,4 +1,5 @@
 import './style.css';
+import uiControlller from './modules/uiController';
 import todoManager from "./modules/todomanager";
 
 const addBtn = document.getElementById('addBtn');
@@ -13,6 +14,7 @@ addBtn.addEventListener('click',()=>{
 
     todoManager.addTaskToProject(newProject,newTask);
     
+    uiControlller.render();
     console.log("It clicked and worked");
     console.log(newProject.tasks);
 })
