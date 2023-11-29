@@ -15,6 +15,6 @@ addBtn.addEventListener('click',()=>{
     todoManager.addTaskToProject(newProject,newTask);
     
     uiControlller.render();
-    console.log("It clicked and worked");
+    console.log("It clicked");
     console.log(newProject.tasks);
 })

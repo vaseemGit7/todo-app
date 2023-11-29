@@ -4,6 +4,10 @@ import Project from "./project";
 const todoManager = (() =>{
     const projects = [];
 
+    const getCurrentProject = () =>{
+        return projects[0];
+    }
+
     const createTask = (title,description,date) =>{
         const newTask = new Task(title,description,date);
         return newTask;
@@ -28,6 +32,7 @@ const todoManager = (() =>{
         createProject,
         addTaskToProject,
         getProjects,
+        getCurrentProject,
     }
 })();
 

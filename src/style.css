@@ -9,12 +9,19 @@ html{
     line-height: 1.6;
 }
 
-.task-container{
+.tasks-container{
     display:flex;
-    justify-content: space-around;
+    flex-direction: column;
     background-color: gainsboro;
-    width: 300px;
+    width: auto;
     font-size: 1.8rem;
     padding: 15px;
     margin: 20px;
+}
+
+.task-card{
+    display: flex;
+    justify-content: space-around;
+    border: 2px solid black;
+    margin-bottom: 20px;
 }

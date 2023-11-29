@@ -2,8 +2,8 @@ import todoManager from "./todomanager";
 
 const uiControlller = (() => {
     const render = () =>{
-        const taskContainer = document.querySelector('.task-container');
-        taskContainer.innerHTML = '';
+        const tasksContainer = document.querySelector('.tasks-container');
+        tasksContainer.innerHTML = '';
 
         const project = todoManager.getCurrentProject();
         const tasks = project.tasks;
@@ -14,7 +14,9 @@ const uiControlller = (() => {
     }
 
     const displayTasks = (task) =>{
-        const taskContainer = document.querySelector('.task-container');
+        const tasksContainer = document.querySelector('.tasks-container');
+        const taskCard = document.createElement('div');
+        taskCard.classList.add('task-card');
         
         const taskTitle = document.createElement('p');
         taskTitle.textContent = task.title;
@@ -28,9 +30,11 @@ const uiControlller = (() => {
         taskDate.textContent = task.date;
         taskDate.classList.add('task-date');
 
-        taskContainer.appendChild(taskTitle);
-        taskContainer.appendChild(taskDescription);
-        taskContainer.appendChild(taskDate);
+        taskCard.appendChild(taskTitle);
+        taskCard.appendChild(taskDescription);
+        taskCard.appendChild(taskDate);
+
+        tasksContainer.appendChild(taskCard);
     }
 
     return{
