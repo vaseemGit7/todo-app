@@ -1,3 +1,4 @@
+import './style.css';
 import todoManager from "./modules/todomanager";
 
 const addBtn = document.getElementById('addBtn');
