@@ -1,6 +1,6 @@
 import './style.css';
 import uiControlller from './modules/uiController';
-import todoManager from "./modules/todomanager";
+import todoManager from "./modules/todoManager";
 
 const addBtn = document.getElementById('addBtn');
 const newProject = todoManager.createProject();

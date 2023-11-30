@@ -1,4 +1,4 @@
-import todoManager from "./todomanager";
+import todoManager from "./todoManager";
 
 const uiControlller = (() => {
     const render = () =>{
