@@ -29,12 +29,33 @@ const uiControlller = (() => {
         const taskDate = document.createElement('p');
         taskDate.textContent = task.date;
         taskDate.classList.add('task-date');
+        
+        const taskId = document.createElement('p');
+        taskId.textContent =`Task Id: ${task.id}`;
 
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete Button';
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.addEventListener('click',handleDelete);
+
+        taskCard.setAttribute('data-task-id',task.id);
+        
         taskCard.appendChild(taskTitle);
         taskCard.appendChild(taskDescription);
         taskCard.appendChild(taskDate);
+        taskCard.appendChild(taskId);
+        taskCard.appendChild(deleteBtn);
 
         tasksContainer.appendChild(taskCard);
+    }
+
+    const handleDelete = (event) =>{
+        const taskCard = event.target.closest('.task-card');
+        const taskId = taskCard.getAttribute('data-task-id');
+        const project = todoManager.getCurrentProject();
+        todoManager.removeTaskFromProject(project,taskId);
+        console.log("deleted");
+        render();
     }
 
     return{
