@@ -9,6 +9,32 @@ html{
     line-height: 1.6;
 }
 
+.app-container{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.sidebar{
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background-color: cadetblue;
+}
+
+.sidebar-nav{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.content{
+    margin: 20px ;
+}
+
+.current-project{
+    font-size: 2rem;
+}
+
 .tasks-container{
     display:flex;
     flex-direction: column;
@@ -16,7 +42,7 @@ html{
     width: auto;
     font-size: 1.8rem;
     padding: 15px;
-    margin: 20px;
+    margin-top: 20px;
 }
 
 .task-card{
@@ -24,4 +50,6 @@ html{
     justify-content: space-around;
     border: 2px solid black;
     margin-bottom: 20px;
+    background-color: white;
+    padding: 10px;
 }
