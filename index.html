@@ -7,13 +7,23 @@
     <script defer src="main.js"></script>
 </head>
 <body>
-    <button id="addBtn">Add Task</button>
-    <div class="tasks-container">
-        <div class="task-card">
-            <p class="task-title">Task</p>
-            <p class="task-description">Description</p>
-            <p class="task-date">10</p>
-            <button class="delete-btn">Delete Task</button>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="sidebar-nav">
+                <button class="project-nav">Create Project</button>
+            </div>
+        </div>
+        <div class="content">
+            <button class="add-btn" id="addBtn">Add Task</button>
+            <p class="current-project" id="currentProject">Project Name</p>
+            <div class="tasks-container">
+                <div class="task-card">
+                    <p class="task-title">Task</p>
+                    <p class="task-description">Description</p>
+                    <p class="task-date">10</p>
+                    <button class="delete-btn">Delete Task</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>
