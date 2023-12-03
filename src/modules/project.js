@@ -1,5 +1,6 @@
 export default class Project {
-    constructor(){
+    constructor(name){
+        this.name = name;
         this.tasks = [];
     }
 
@@ -11,5 +12,3 @@ export default class Project {
         this.tasks = this.tasks.filter(t => t.id != task);
     }
 }
-
-

@@ -3,8 +3,8 @@ import uiControlller from './modules/uiController';
 import todoManager from "./modules/todoManager";
 
 const addBtn = document.getElementById('addBtn');
-// const deleteBtns = document.querySelectorAll('.delete-btn');
-const newProject = todoManager.createProject();
+const createProjectBtn = document.getElementById('createProjectBtn');
+const newProject = todoManager.createProject('newProject');
 
 addBtn.addEventListener('click',()=>{
     let title = prompt("Enter the task title");
@@ -18,6 +18,13 @@ addBtn.addEventListener('click',()=>{
     uiControlller.render();
     console.log("It clicked");
     console.log(newProject.tasks);
+})
+
+createProjectBtn.addEventListener('click',()=>{
+    let projectName = prompt("Enter project name");
+
+    const newProject = todoManager.createProject(projectName);
+    uiControlller.renderProjects();
 })
 
 // deleteBtns.forEach((deleteBtn)=>{

@@ -15,8 +15,8 @@ const todoManager = (() =>{
         return newTask;
     }
 
-    const createProject = () =>{
-        const newProject = new Project();
+    const createProject = (name) =>{
+        const newProject = new Project(name);
         projects.push(newProject);
         return newProject;
     }

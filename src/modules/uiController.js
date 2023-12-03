@@ -1,7 +1,27 @@
 import todoManager from "./todoManager";
 
 const uiControlller = (() => {
-    const render = () =>{
+    const renderProjects = () =>{
+        const workspaces = document.querySelector('.workspaces');
+        workspaces.innerHTML = '';
+
+        const projects = todoManager.getProjects();
+
+        for(let i = 0; i<projects.length;i++){
+            displayProject(projects[i]);
+        }
+    }
+
+    const displayProject = (project) =>{
+        const workspaces = document.querySelector('.workspaces');
+        
+        const projectNav = document.createElement('button');
+        projectNav.textContent = project.name;
+        
+        workspaces.appendChild(projectNav);
+    }
+
+    const renderTasks = () =>{
         const tasksContainer = document.querySelector('.tasks-container');
         tasksContainer.innerHTML = '';
 
@@ -9,11 +29,11 @@ const uiControlller = (() => {
         const tasks = project.tasks;
 
         for(let i = 0; i<tasks.length;i++){
-            displayTasks(tasks[i]);
+            displayTask(tasks[i]);
         }
     }
 
-    const displayTasks = (task) =>{
+    const displayTask = (task) =>{
         const tasksContainer = document.querySelector('.tasks-container');
         const taskCard = document.createElement('div');
         taskCard.classList.add('task-card');
@@ -59,7 +79,8 @@ const uiControlller = (() => {
     }
 
     return{
-        render,
+        renderTasks,
+        renderProjects
     }
 })()
 

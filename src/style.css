@@ -27,6 +27,11 @@ html{
     gap: 20px;
 }
 
+.workspaces{
+    display: flex;
+    flex-direction: column;
+}
+
 .content{
     margin: 20px ;
 }
