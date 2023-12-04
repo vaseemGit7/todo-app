@@ -3,10 +3,17 @@ import Project from "./project";
 
 const todoManager = (() =>{
     const projects = [];
+    let projectIdCounter = 1;
     let todoIdCounter = 1;
 
+    let currentProject = undefined;
+
+    const setCurrentProject = (project) =>{
+        currentProject = projects.find(p => p.id == project); 
+    }
+
     const getCurrentProject = () =>{
-        return projects[0];
+        return currentProject;
     }
 
     const createTask = (title,description,date) =>{
@@ -16,8 +23,9 @@ const todoManager = (() =>{
     }
 
     const createProject = (name) =>{
-        const newProject = new Project(name);
+        const newProject = new Project(projectIdCounter,name);
         projects.push(newProject);
+        projectIdCounter++;
         return newProject;
     }
 
@@ -39,6 +47,7 @@ const todoManager = (() =>{
         addTaskToProject,
         removeTaskFromProject,
         getProjects,
+        setCurrentProject,
         getCurrentProject,
     }
 })();

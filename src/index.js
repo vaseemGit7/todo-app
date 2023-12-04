@@ -6,6 +6,8 @@ const addBtn = document.getElementById('addBtn');
 const createProjectBtn = document.getElementById('createProjectBtn');
 const newProject = todoManager.createProject('newProject');
 
+uiControlller.renderProjects();
+
 addBtn.addEventListener('click',()=>{
     let title = prompt("Enter the task title");
     let description = prompt("Enter the task description");

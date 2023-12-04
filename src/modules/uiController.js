@@ -17,6 +17,10 @@ const uiControlller = (() => {
         
         const projectNav = document.createElement('button');
         projectNav.textContent = project.name;
+        projectNav.classList.add('project-nav');
+        projectNav.setAttribute('data-project-id',project.id);
+
+        projectNav.addEventListener('click',handleProjectSelection);
         
         workspaces.appendChild(projectNav);
     }
@@ -67,6 +71,15 @@ const uiControlller = (() => {
         taskCard.appendChild(deleteBtn);
 
         tasksContainer.appendChild(taskCard);
+    }
+
+    const handleProjectSelection = (event) =>{
+        const projectId = event.target.getAttribute('data-project-id'); 
+        todoManager.setCurrentProject(projectId);
+        console.log("Current Project: "+ projectId);
+
+        const currentProject = todoManager.getCurrentProject();
+        console.log(currentProject.name);
     }
 
     const handleDelete = (event) =>{
