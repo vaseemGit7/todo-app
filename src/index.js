@@ -4,7 +4,6 @@ import todoManager from "./modules/todoManager";
 
 const addBtn = document.getElementById('addBtn');
 const createProjectBtn = document.getElementById('createProjectBtn');
-const newProject = todoManager.createProject('newProject');
 
 uiControlller.renderProjects();
 
@@ -13,13 +12,14 @@ addBtn.addEventListener('click',()=>{
     let description = prompt("Enter the task description");
     let date = parseInt(prompt("Enter the task's date"));
 
+    const currentProject = todoManager.getCurrentProject();
     const newTask = todoManager.createTask(title,description,date);
 
-    todoManager.addTaskToProject(newProject,newTask);
+    todoManager.addTaskToProject(currentProject,newTask);
     
-    uiControlller.render();
+    uiControlller.renderTasks();
     console.log("It clicked");
-    console.log(newProject.tasks);
+    console.log(currentProject.tasks);
 })
 
 createProjectBtn.addEventListener('click',()=>{

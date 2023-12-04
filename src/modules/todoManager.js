@@ -2,7 +2,7 @@ import Task from "./task";
 import Project from "./project";
 
 const todoManager = (() =>{
-    const projects = [];
+    let projects = [];
     let projectIdCounter = 1;
     let todoIdCounter = 1;
 
@@ -28,6 +28,10 @@ const todoManager = (() =>{
         projectIdCounter++;
         return newProject;
     }
+    
+    const deleteProject = (projectId) => {
+        projects = projects.filter(p => p.id != projectId);
+    }
 
     const addTaskToProject = (project,task) =>{
         project.addTask(task);
@@ -44,6 +48,7 @@ const todoManager = (() =>{
     return{
         createTask,
         createProject,
+        deleteProject,
         addTaskToProject,
         removeTaskFromProject,
         getProjects,

@@ -14,15 +14,26 @@ const uiControlller = (() => {
 
     const displayProject = (project) =>{
         const workspaces = document.querySelector('.workspaces');
+
+        const projectCard = document.createElement('div');
+        projectCard.classList.add('project-card');
         
         const projectNav = document.createElement('button');
         projectNav.textContent = project.name;
         projectNav.classList.add('project-nav');
-        projectNav.setAttribute('data-project-id',project.id);
 
+        const deleteProjectBtn = document.createElement('button');
+        deleteProjectBtn.textContent = "Delete";
+                
+        projectCard.setAttribute('data-project-id',project.id);
+        
+        deleteProjectBtn.addEventListener('click',handleProjectDeletion);
         projectNav.addEventListener('click',handleProjectSelection);
         
-        workspaces.appendChild(projectNav);
+        projectCard.appendChild(projectNav);
+        projectCard.appendChild(deleteProjectBtn);
+
+        workspaces.appendChild(projectCard);
     }
 
     const renderTasks = () =>{
@@ -74,12 +85,26 @@ const uiControlller = (() => {
     }
 
     const handleProjectSelection = (event) =>{
-        const projectId = event.target.getAttribute('data-project-id'); 
+        const currentProjectName = document.querySelector('#currentProjectName');
+        
+        const projectCard = event.target.closest('.project-card');
+        const projectId = projectCard.getAttribute('data-project-id');
         todoManager.setCurrentProject(projectId);
         console.log("Current Project: "+ projectId);
-
+        
         const currentProject = todoManager.getCurrentProject();
+        currentProjectName.textContent = currentProject.name;
         console.log(currentProject.name);
+        renderTasks();
+    }
+
+    const handleProjectDeletion = (event) =>{
+        const projectCard = event.target.closest('.project-card');
+        const projectId = projectCard.getAttribute('data-project-id');
+
+        todoManager.deleteProject(projectId);
+        renderProjects();
+        renderTasks();
     }
 
     const handleDelete = (event) =>{
@@ -88,7 +113,7 @@ const uiControlller = (() => {
         const project = todoManager.getCurrentProject();
         todoManager.removeTaskFromProject(project,taskId);
         console.log("deleted");
-        render();
+        renderTasks();
     }
 
     return{
