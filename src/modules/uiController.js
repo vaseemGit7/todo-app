@@ -75,8 +75,13 @@ const uiControlller = (() => {
         deleteBtn.textContent = 'Delete Button';
         deleteBtn.classList.add('delete-btn');
 
+        if(task.completed === true){
+            taskCard.classList.add('task-done');
+            taskCheck.classList.add('task-checked');
+        }
+
         taskCheck.addEventListener('click', handleTaskComplete);
-        deleteBtn.addEventListener('click',handleDelete);
+        deleteBtn.addEventListener('click',handleDeleteTask);
 
         taskCard.setAttribute('data-task-id',task.id);
         
@@ -90,6 +95,17 @@ const uiControlller = (() => {
         tasksContainer.appendChild(taskCard);
     }
 
+    const createAddTaskBtn = () =>{
+        const content = document.querySelector('.content');
+
+        const addBtn = document.createElement('button');
+        addBtn.textContent = "Add Task";
+        addBtn.classList.add('add-btn');
+        addBtn.addEventListener('click',handleAddTask);
+
+        content.appendChild(addBtn);
+    }
+
     const handleProjectSelection = (event) =>{
         const currentProjectName = document.querySelector('#currentProjectName');
         
@@ -101,6 +117,7 @@ const uiControlller = (() => {
         const currentProject = todoManager.getCurrentProject();
         currentProjectName.textContent = currentProject.name;
         console.log(currentProject.name);
+        createAddTaskBtn();
         renderTasks();
     }
 
@@ -117,17 +134,28 @@ const uiControlller = (() => {
     const handleTaskComplete = (event) =>{
         const taskCard = event.target.closest('.task-card');
         const taskId = taskCard.getAttribute('data-task-id');
-        const taskCheck = taskCard.querySelector('.task-check');
+
         const project = todoManager.getCurrentProject();
-        console.log(taskCheck);
-        console.log(taskCard);
         todoManager.setTaskCompleteStatus(project,taskId);
-        taskCheck.classList.add('task-checked');
-        taskCard.classList.add('task-done');
         renderTasks();
     }
 
-    const handleDelete = (event) =>{
+    const handleAddTask = () =>{
+        let title = prompt("Enter the task title");
+        let description = prompt("Enter the task description");
+        let date = parseInt(prompt("Enter the task's date"));
+
+        const currentProject = todoManager.getCurrentProject();
+        const newTask = todoManager.createTask(title,description,date);
+
+        todoManager.addTaskToProject(currentProject,newTask);
+        
+        renderTasks();
+        console.log("It clicked");
+        console.log(currentProject.tasks);
+    }
+
+    const handleDeleteTask = (event) =>{
         const taskCard = event.target.closest('.task-card');
         const taskId = taskCard.getAttribute('data-task-id');
         const project = todoManager.getCurrentProject();
