@@ -58,3 +58,18 @@ html{
     background-color: white;
     padding: 10px;
 }
+
+.task-check{
+    height: 20px;
+    width: 20px;
+    border: 2px solid black;
+}
+
+.task-checked{
+    background-color: green;
+}
+
+.task-done{
+    text-decoration: line-through;
+    color: gray;
+}

@@ -3,6 +3,11 @@ export default class Task {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.date = date;  
+        this.date = date; 
+        this.completed = false; 
     }
+
+    setCompleted(){
+        this.completed = !this.completed; 
+    } 
 }

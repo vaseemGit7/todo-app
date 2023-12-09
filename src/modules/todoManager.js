@@ -41,6 +41,12 @@ const todoManager = (() =>{
         project.removeTask(task);
     }
 
+    const setTaskCompleteStatus = (project,taskId) =>{
+        let selectedTask = project.tasks.find(task => task.id == taskId);
+        selectedTask.setCompleted();
+        console.log(selectedTask);
+    }
+
     const getProjects = () =>{
         return projects;
     }
@@ -51,6 +57,7 @@ const todoManager = (() =>{
         deleteProject,
         addTaskToProject,
         removeTaskFromProject,
+        setTaskCompleteStatus,
         getProjects,
         setCurrentProject,
         getCurrentProject,

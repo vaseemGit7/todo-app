@@ -52,6 +52,9 @@ const uiControlller = (() => {
         const tasksContainer = document.querySelector('.tasks-container');
         const taskCard = document.createElement('div');
         taskCard.classList.add('task-card');
+
+        const taskCheck = document.createElement('div');
+        taskCheck.classList.add('task-check');
         
         const taskTitle = document.createElement('p');
         taskTitle.textContent = task.title;
@@ -71,10 +74,13 @@ const uiControlller = (() => {
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Delete Button';
         deleteBtn.classList.add('delete-btn');
+
+        taskCheck.addEventListener('click', handleTaskComplete);
         deleteBtn.addEventListener('click',handleDelete);
 
         taskCard.setAttribute('data-task-id',task.id);
         
+        taskCard.appendChild(taskCheck);
         taskCard.appendChild(taskTitle);
         taskCard.appendChild(taskDescription);
         taskCard.appendChild(taskDate);
@@ -103,7 +109,21 @@ const uiControlller = (() => {
         const projectId = projectCard.getAttribute('data-project-id');
 
         todoManager.deleteProject(projectId);
+        todoManager.setCurrentProject(undefined);
         renderProjects();
+        renderTasks();
+    }
+
+    const handleTaskComplete = (event) =>{
+        const taskCard = event.target.closest('.task-card');
+        const taskId = taskCard.getAttribute('data-task-id');
+        const taskCheck = taskCard.querySelector('.task-check');
+        const project = todoManager.getCurrentProject();
+        console.log(taskCheck);
+        console.log(taskCard);
+        todoManager.setTaskCompleteStatus(project,taskId);
+        taskCheck.classList.add('task-checked');
+        taskCard.classList.add('task-done');
         renderTasks();
     }
 
