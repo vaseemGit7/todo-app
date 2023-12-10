@@ -67,21 +67,6 @@ const uiControlller = (() => {
         const taskPriority = document.createElement('select');
         taskPriority.className = 'task-priority';
 
-        const highOption = document.createElement('option');
-        highOption.value = 'high';
-        highOption.textContent = 'High';
-        taskPriority.appendChild(highOption);
-
-        const mediumOption = document.createElement('option');
-        mediumOption.value = 'medium';
-        mediumOption.textContent = 'Medium';
-        taskPriority.appendChild(mediumOption);
-
-        const lowOption = document.createElement('option');
-        lowOption.value = 'low';
-        lowOption.textContent = 'Low';
-        taskPriority.appendChild(lowOption);
-
         const taskDate = document.createElement('p');
         taskDate.textContent = task.date;
         taskDate.classList.add('task-date');
@@ -92,6 +77,20 @@ const uiControlller = (() => {
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Delete Button';
         deleteBtn.classList.add('delete-btn');
+
+        const priorityOptions = ['high','medium','low'];
+
+        priorityOptions.forEach(optionValue => {
+            const option = document.createElement('option');
+            option.value = optionValue;
+            option.textContent = optionValue.charAt(0).toUpperCase() + optionValue.slice(1);
+
+            if (optionValue === task.priority) {
+                option.selected = true;
+            }
+    
+            taskPriority.appendChild(option);
+        })
 
         if(task.completed === true){
             taskCard.classList.add('task-done');
@@ -156,16 +155,17 @@ const uiControlller = (() => {
 
         const project = todoManager.getCurrentProject();
         todoManager.setTaskCompleteStatus(project,taskId);
-        renderTasks();
+        renderTasks();  
     }
 
     const handleAddTask = () =>{
         let title = prompt("Enter the task title");
         let description = prompt("Enter the task description");
+        let priority = prompt("Enter priority(high or medium or low)")
         let date = parseInt(prompt("Enter the task's date"));
 
         const currentProject = todoManager.getCurrentProject();
-        const newTask = todoManager.createTask(title,description,date);
+        const newTask = todoManager.createTask(title,description,priority,date);
 
         todoManager.addTaskToProject(currentProject,newTask);
         

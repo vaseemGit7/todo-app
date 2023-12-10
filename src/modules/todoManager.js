@@ -16,8 +16,8 @@ const todoManager = (() =>{
         return currentProject;
     }
 
-    const createTask = (title,description,date) =>{
-        const newTask = new Task(todoIdCounter,title,description,date);
+    const createTask = (title,description,priority,date) =>{
+        const newTask = new Task(todoIdCounter,title,description,priority,date);
         todoIdCounter++;
         return newTask;
     }
