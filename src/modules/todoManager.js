@@ -41,6 +41,11 @@ const todoManager = (() =>{
         project.removeTask(task);
     }
 
+    const setTaskPriority = (project,taskId,priorityValue) =>{
+        let selectedTask = project.tasks.find(task => task.id == taskId);
+        selectedTask.setPriority(priorityValue);
+    }
+
     const setTaskCompleteStatus = (project,taskId) =>{
         let selectedTask = project.tasks.find(task => task.id == taskId);
         selectedTask.setCompleted();
@@ -57,6 +62,7 @@ const todoManager = (() =>{
         deleteProject,
         addTaskToProject,
         removeTaskFromProject,
+        setTaskPriority,
         setTaskCompleteStatus,
         getProjects,
         setCurrentProject,

@@ -97,6 +97,7 @@ const uiControlller = (() => {
             taskCheck.classList.add('task-checked');
         }
 
+        taskPriority.addEventListener('change', handleTaskPriority);
         taskCheck.addEventListener('click', handleTaskComplete);
         deleteBtn.addEventListener('click',handleDeleteTask);
 
@@ -156,6 +157,16 @@ const uiControlller = (() => {
         const project = todoManager.getCurrentProject();
         todoManager.setTaskCompleteStatus(project,taskId);
         renderTasks();  
+    }
+
+    const handleTaskPriority = (event) =>{
+        const taskCard = event.target.closest('.task-card');
+        const taskId = taskCard.getAttribute('data-task-id');
+        const priorityValue = event.target.value;
+
+        const project = todoManager.getCurrentProject();
+        todoManager.setTaskPriority(project,taskId,priorityValue);
+        renderTasks();
     }
 
     const handleAddTask = () =>{

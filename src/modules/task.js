@@ -8,6 +8,10 @@ export default class Task {
         this.completed = false; 
     }
 
+    setPriority(priorityValue){
+        this.priority = priorityValue;
+    }
+
     setCompleted(){
         this.completed = !this.completed; 
     } 
