@@ -64,6 +64,24 @@ const uiControlller = (() => {
         taskDescription.textContent = task.description;
         taskDescription.classList.add('task-description');
 
+        const taskPriority = document.createElement('select');
+        taskPriority.className = 'task-priority';
+
+        const highOption = document.createElement('option');
+        highOption.value = 'high';
+        highOption.textContent = 'High';
+        taskPriority.appendChild(highOption);
+
+        const mediumOption = document.createElement('option');
+        mediumOption.value = 'medium';
+        mediumOption.textContent = 'Medium';
+        taskPriority.appendChild(mediumOption);
+
+        const lowOption = document.createElement('option');
+        lowOption.value = 'low';
+        lowOption.textContent = 'Low';
+        taskPriority.appendChild(lowOption);
+
         const taskDate = document.createElement('p');
         taskDate.textContent = task.date;
         taskDate.classList.add('task-date');
@@ -88,6 +106,7 @@ const uiControlller = (() => {
         taskCard.appendChild(taskCheck);
         taskCard.appendChild(taskTitle);
         taskCard.appendChild(taskDescription);
+        taskCard.appendChild(taskPriority);
         taskCard.appendChild(taskDate);
         taskCard.appendChild(taskId);
         taskCard.appendChild(deleteBtn);
