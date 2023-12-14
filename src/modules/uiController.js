@@ -120,7 +120,7 @@ const uiControlller = (() => {
         const addTaskBtn = document.createElement('button');
         addTaskBtn.textContent = "Add Task";
         addTaskBtn.classList.add('addTask-btn');
-        addTaskBtn.addEventListener('click',handleAddTask);
+        addTaskBtn.addEventListener('click',handleTaskForm);
 
         content.appendChild(addTaskBtn);
     }
@@ -186,6 +186,8 @@ const uiControlller = (() => {
         const addBtn = document.createElement('button');
         addBtn.id = 'addBtn';
         addBtn.textContent = 'Add';
+
+        addBtn.addEventListener('click',handleAddTask);
         
         rightPanel.appendChild(dueDateLabel);
         rightPanel.appendChild(dateInput);
@@ -244,27 +246,40 @@ const uiControlller = (() => {
         renderTasks();
     }
 
-    const handleAddTask = () =>{
-        // let title = prompt("Enter the task title");
-        // let description = prompt("Enter the task description");
-        // let priority = prompt("Enter priority(high or medium or low)")
-        // let date = parseInt(prompt("Enter the task's date"));
+    const handleTaskForm = () =>{
         createTaskForm();
 
         const taskForm = document.querySelector('.task-form');
-        // taskForm.classList.remove('disabled');
+        taskForm.classList.remove('disabled');
 
-        // const addTaskBtn = document.querySelector('.addTask-btn');
-        // addTaskBtn.classList.add('disabled');
+        const addTaskBtn = document.querySelector('.addTask-btn');
+        addTaskBtn.classList.add('disabled');
 
-        // const currentProject = todoManager.getCurrentProject();
-        // const newTask = todoManager.createTask(title,description,priority,date);
+        console.log("FORM CREATED");
+    }
 
-        // todoManager.addTaskToProject(currentProject,newTask);
+    const handleAddTask = (event) =>{
+        event.preventDefault();
+
+        const title = document.querySelector('#titleInput').value;
+        const description = document.querySelector('#descriptionInput').value;
+        const priority = document.querySelector('#priorityInput').value;
+        const date = document.querySelector('#dateInput').value;
+
+        const currentProject = todoManager.getCurrentProject();
+        const newTask = todoManager.createTask(title,description,priority,date);
+
+        todoManager.addTaskToProject(currentProject,newTask);
+
+        const taskForm = document.querySelector('.task-form');
+        taskForm.classList.add('disabled');
+
+        const addTaskBtn = document.querySelector('.addTask-btn');
+        addTaskBtn.classList.remove('disabled');
         
-        // renderTasks();
+        renderTasks();
         console.log("It clicked");
-        // console.log(currentProject.tasks);
+        console.log(currentProject.tasks);
     }
 
     const handleDeleteTask = (event) =>{

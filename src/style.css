@@ -9,6 +9,10 @@ html{
     line-height: 1.6;
 }
 
+.disabled{
+    display: none !important;
+}
+
 .app-container{
     display: grid;
     grid-template-columns: 1fr 4fr;
