@@ -50,6 +50,24 @@ html{
     margin-top: 20px;
 }
 
+.task-form{
+    display: grid;
+    grid-template-columns: max-content max-content;
+    gap: 20px;
+}
+
+.left-panel{
+    display: grid;
+    grid-template-rows: max-content max-content;
+    gap: 10px;
+}
+
+.right-panel{
+    display: grid;
+    grid-template-rows: repeat(3,max-content);
+    gap: 5px;
+}
+
 .task-card{
     display: flex;
     justify-content: space-around;
