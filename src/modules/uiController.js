@@ -117,12 +117,87 @@ const uiControlller = (() => {
     const createAddTaskBtn = () =>{
         const content = document.querySelector('.content');
 
-        const addBtn = document.createElement('button');
-        addBtn.textContent = "Add Task";
-        addBtn.classList.add('add-btn');
-        addBtn.addEventListener('click',handleAddTask);
+        const addTaskBtn = document.createElement('button');
+        addTaskBtn.textContent = "Add Task";
+        addTaskBtn.classList.add('addTask-btn');
+        addTaskBtn.addEventListener('click',handleAddTask);
 
-        content.appendChild(addBtn);
+        content.appendChild(addTaskBtn);
+    }
+
+    const createTaskForm = () =>{
+        const tasksContainer = document.querySelector('.tasks-container');
+
+        const taskForm = document.createElement('form');
+        taskForm.id = 'taskForm';
+        taskForm.classList.add('task-form');
+        taskForm.classList.add('disabled');
+        
+        const leftPanel = document.createElement('div');
+        leftPanel.classList.add('left-panel');
+        
+        const titleLabel = document.createElement('label');
+        titleLabel.textContent = 'Title';
+        const titleInput = document.createElement('input');
+        titleInput.type = 'text';
+        titleInput.id = 'titleInput';
+        titleInput.name = 'title';
+        
+        const descriptionLabel = document.createElement('label');
+        descriptionLabel.textContent = 'Description';
+        const descriptionInput = document.createElement('input');
+        descriptionInput.type = 'text';
+        descriptionInput.id = 'descriptionInput';
+        descriptionInput.name = 'description';
+        
+        leftPanel.appendChild(titleLabel);
+        leftPanel.appendChild(titleInput);
+        leftPanel.appendChild(descriptionLabel);
+        leftPanel.appendChild(descriptionInput);
+        
+        const rightPanel = document.createElement('div');
+        rightPanel.classList.add('right-panel');
+        
+        const dueDateLabel = document.createElement('label');
+        dueDateLabel.textContent = 'Due Date';
+        const dateInput = document.createElement('input');
+        dateInput.type = 'date';
+        dateInput.name = 'dueDate';
+        dateInput.id = 'dateInput';
+        
+        const priorityLabel = document.createElement('label');
+        priorityLabel.textContent = 'Priority';
+        const prioritySelect = document.createElement('select');
+        prioritySelect.name = 'priority';
+        prioritySelect.id = 'priorityInput';
+        
+        const priorities = ['High', 'Medium', 'Low'];
+        priorities.forEach(priority => {
+          const option = document.createElement('option');
+          option.value = priority.toLowerCase();
+          option.textContent = priority;
+          prioritySelect.appendChild(option);
+        });
+        
+        const cancelBtn = document.createElement('button');
+        cancelBtn.id = 'cancelBtn';
+        cancelBtn.textContent = 'Cancel';
+        
+        const addBtn = document.createElement('button');
+        addBtn.id = 'addBtn';
+        addBtn.textContent = 'Add';
+        
+        rightPanel.appendChild(dueDateLabel);
+        rightPanel.appendChild(dateInput);
+        rightPanel.appendChild(priorityLabel);
+        rightPanel.appendChild(prioritySelect);
+        rightPanel.appendChild(cancelBtn);
+        rightPanel.appendChild(addBtn);
+        
+        taskForm.appendChild(leftPanel);
+        taskForm.appendChild(rightPanel);
+        
+        tasksContainer.appendChild(taskForm);
     }
 
     const handleProjectSelection = (event) =>{
@@ -170,19 +245,26 @@ const uiControlller = (() => {
     }
 
     const handleAddTask = () =>{
-        let title = prompt("Enter the task title");
-        let description = prompt("Enter the task description");
-        let priority = prompt("Enter priority(high or medium or low)")
-        let date = parseInt(prompt("Enter the task's date"));
+        // let title = prompt("Enter the task title");
+        // let description = prompt("Enter the task description");
+        // let priority = prompt("Enter priority(high or medium or low)")
+        // let date = parseInt(prompt("Enter the task's date"));
+        createTaskForm();
 
-        const currentProject = todoManager.getCurrentProject();
-        const newTask = todoManager.createTask(title,description,priority,date);
+        const taskForm = document.querySelector('.task-form');
+        // taskForm.classList.remove('disabled');
 
-        todoManager.addTaskToProject(currentProject,newTask);
+        // const addTaskBtn = document.querySelector('.addTask-btn');
+        // addTaskBtn.classList.add('disabled');
+
+        // const currentProject = todoManager.getCurrentProject();
+        // const newTask = todoManager.createTask(title,description,priority,date);
+
+        // todoManager.addTaskToProject(currentProject,newTask);
         
-        renderTasks();
+        // renderTasks();
         console.log("It clicked");
-        console.log(currentProject.tasks);
+        // console.log(currentProject.tasks);
     }
 
     const handleDeleteTask = (event) =>{
