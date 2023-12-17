@@ -1,3 +1,4 @@
+import { compareAsc } from "date-fns";
 import Task from "./task";
 import Project from "./project";
 
@@ -35,6 +36,7 @@ const todoManager = (() =>{
 
     const addTaskToProject = (project,task) =>{
         project.addTask(task);
+        sortTasks(project);
     }
 
     const removeTaskFromProject = (project,task) =>{
@@ -54,6 +56,11 @@ const todoManager = (() =>{
 
     const getProjects = () =>{
         return projects;
+    }
+
+    const sortTasks = (project) => {
+        let sortedTasks = project.tasks.sort((taskA,taskB)=>compareAsc(new Date(taskA.getDate()),new Date(taskB.getDate())));
+        project.setTask(sortedTasks);
     }
 
     return{

@@ -15,4 +15,8 @@ export default class Task {
     setCompleted(){
         this.completed = !this.completed; 
     } 
+
+    getDate(){
+        return this.date;
+    }
 }

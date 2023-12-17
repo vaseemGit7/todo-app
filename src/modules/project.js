@@ -12,4 +12,8 @@ export default class Project {
     removeTask(task){
         this.tasks = this.tasks.filter(t => t.id != task);
     }
+
+    setTask(tasks){
+        this.tasks = tasks;
+    }
 }
