@@ -36,7 +36,7 @@ const todoManager = (() =>{
 
     const addTaskToProject = (project,task) =>{
         project.addTask(task);
-        sortTasks(project);
+        sortTasksByPriority(project);
     }
 
     const removeTaskFromProject = (project,task) =>{
@@ -58,9 +58,16 @@ const todoManager = (() =>{
         return projects;
     }
 
-    const sortTasks = (project) => {
-        let sortedTasks = project.tasks.sort((taskA,taskB)=>compareAsc(new Date(taskA.getDate()),new Date(taskB.getDate())));
-        project.setTask(sortedTasks);
+    const sortTasksByPriority = (project) =>{
+        const priorityOrder = {'high':3, 'medium':2, 'low':1};
+
+        let sortedByPriority = project.tasks.sort((taskA,taskB)=> priorityOrder[taskB.priority]-priorityOrder[taskA.priority]);
+        project.setTask(sortTasksByDate(sortedByPriority));
+    }
+
+    const sortTasksByDate = (sortedByPriority) => {
+        let sortedByDate = sortedByPriority.sort((taskA,taskB)=>compareAsc(new Date(taskA.getDate()),new Date(taskB.getDate())));
+        return sortedByDate;
     }
 
     return{
