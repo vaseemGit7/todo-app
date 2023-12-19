@@ -115,14 +115,15 @@ const uiControlller = (() => {
     }
 
     const createAddTaskBtn = () =>{
-        const content = document.querySelector('.content');
+        const addTaskContainer = document.querySelector('.add-task-container');
+        addTaskContainer.innerHTML = "";
 
         const addTaskBtn = document.createElement('button');
         addTaskBtn.textContent = "Add Task";
         addTaskBtn.classList.add('addTask-btn');
         addTaskBtn.addEventListener('click',handleTaskForm);
 
-        content.appendChild(addTaskBtn);
+        addTaskContainer.appendChild(addTaskBtn);
     }
 
     const createTaskForm = () =>{
