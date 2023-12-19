@@ -81,6 +81,8 @@ const todoManager = (() =>{
                 inbox.tasks.push(task);
             })
         })
+
+        sortTasksByPriority(inbox);
     }
 
     return{
