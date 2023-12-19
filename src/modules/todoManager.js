@@ -7,16 +7,6 @@ const todoManager = (() =>{
     let projectIdCounter = 1;
     let todoIdCounter = 1;
 
-    let currentProject = undefined;
-
-    const setCurrentProject = (project) =>{
-        currentProject = projects.find(p => p.id == project); 
-    }
-
-    const getCurrentProject = () =>{
-        return currentProject;
-    }
-
     const createTask = (title,description,priority,date) =>{
         const newTask = new Task(todoIdCounter,title,description,priority,date);
         todoIdCounter++;
@@ -37,6 +27,7 @@ const todoManager = (() =>{
     const addTaskToProject = (project,task) =>{
         project.addTask(task);
         sortTasksByPriority(project);
+        updateInbox();
     }
 
     const removeTaskFromProject = (project,task) =>{
@@ -58,6 +49,18 @@ const todoManager = (() =>{
         return projects;
     }
 
+    const inbox = createProject("Inbox");
+    
+    let currentProject = inbox;
+    
+    const setCurrentProject = (project) =>{
+        currentProject = projects.find(p => p.id == project); 
+    }
+    
+    const getCurrentProject = () =>{
+        return currentProject;
+    }
+
     const sortTasksByPriority = (project) =>{
         const priorityOrder = {'high':3, 'medium':2, 'low':1};
 
@@ -68,6 +71,16 @@ const todoManager = (() =>{
     const sortTasksByDate = (sortedByPriority) => {
         let sortedByDate = sortedByPriority.sort((taskA,taskB)=>compareAsc(new Date(taskA.getDate()),new Date(taskB.getDate())));
         return sortedByDate;
+    }
+
+    const updateInbox = () =>{
+        inbox.tasks = [];
+
+        projects.forEach((project)=>{
+            project.tasks.forEach((task)=>{
+                inbox.tasks.push(task);
+            })
+        })
     }
 
     return{
