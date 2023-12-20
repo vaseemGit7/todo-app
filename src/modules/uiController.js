@@ -1,6 +1,14 @@
 import todoManager from "./todoManager";
 
 const uiControlller = (() => {
+    const renderTaskBins = () =>{
+        const taskBins = todoManager.getTaskBins();
+
+        for(let i = 0; i<taskBins.length;i++){
+            displayProject(taskBins[i],'taskBins');
+        }
+    }
+
     const renderProjects = () =>{
         const workspaces = document.querySelector('.workspaces');
         workspaces.innerHTML = '';
@@ -8,11 +16,12 @@ const uiControlller = (() => {
         const projects = todoManager.getProjects();
 
         for(let i = 0; i<projects.length;i++){
-            displayProject(projects[i]);
+            displayProject(projects[i],'projects');
         }
     }
 
-    const displayProject = (project) =>{
+    const displayProject = (project,collection) =>{
+        const menus = document.querySelector('.menus');
         const workspaces = document.querySelector('.workspaces');
 
         const projectCard = document.createElement('div');
@@ -22,18 +31,24 @@ const uiControlller = (() => {
         projectNav.textContent = project.name;
         projectNav.classList.add('project-nav');
 
-        const deleteProjectBtn = document.createElement('button');
-        deleteProjectBtn.textContent = "Delete";
-                
-        projectCard.setAttribute('data-project-id',project.id);
-        
-        deleteProjectBtn.addEventListener('click',handleProjectDeletion);
         projectNav.addEventListener('click',handleProjectSelection);
-        
         projectCard.appendChild(projectNav);
-        projectCard.appendChild(deleteProjectBtn);
+        
+        if(collection === 'projects'){
+            const deleteProjectBtn = document.createElement('button');
+            deleteProjectBtn.textContent = "Delete";
+                    
+            deleteProjectBtn.addEventListener('click',handleProjectDeletion);    
 
-        workspaces.appendChild(projectCard);
+            projectCard.setAttribute('data-project-id',project.id);
+            projectCard.appendChild(deleteProjectBtn);
+            workspaces.appendChild(projectCard);
+        }
+
+        if(collection === 'taskBins'){
+            projectCard.setAttribute('data-menu-id',project.id);
+            menus.appendChild(projectCard);
+        }
     }
 
     const renderTasks = () =>{
@@ -207,14 +222,25 @@ const uiControlller = (() => {
         const currentProjectName = document.querySelector('#currentProjectName');
         
         const projectCard = event.target.closest('.project-card');
-        const projectId = projectCard.getAttribute('data-project-id');
-        todoManager.setCurrentProject(projectId);
-        console.log("Current Project: "+ projectId);
+        const isProjectCollection = projectCard.parentElement.classList.contains('workspaces');
+        const isMenuCollection = projectCard.parentElement.classList.contains('menus');
         
+        if(isProjectCollection){
+            const projectId = projectCard.getAttribute('data-project-id');
+            todoManager.setCurrentProject(projectId,'project');
+            console.log("Current Project: "+ projectId);
+            createAddTaskBtn();
+        }
+        
+        if(isMenuCollection){
+            const menuId = projectCard.getAttribute('data-menu-id');
+            todoManager.setCurrentProject(menuId,'menu');
+            console.log("Current Menu: "+ menuId);
+        }
+
         const currentProject = todoManager.getCurrentProject();
         currentProjectName.textContent = currentProject.name;
-        console.log(currentProject.name);
-        createAddTaskBtn();
+        
         renderTasks();
     }
 
@@ -224,8 +250,7 @@ const uiControlller = (() => {
 
         todoManager.deleteProject(projectId);
         todoManager.setCurrentProject(undefined);
-        renderProjects();
-        renderTasks();
+        renderProjects();   
     }
 
     const handleTaskComplete = (event) =>{
@@ -294,7 +319,8 @@ const uiControlller = (() => {
 
     return{
         renderTasks,
-        renderProjects
+        renderProjects,
+        renderTaskBins
     }
 })()
 

@@ -1,9 +1,11 @@
-import { compareAsc } from "date-fns";
+import { compareAsc, isToday } from "date-fns";
 import Task from "./task";
 import Project from "./project";
 
 const todoManager = (() =>{
+    let taskBins = [];
     let projects = [];
+    let taskBinCounter = 1;
     let projectIdCounter = 1;
     let todoIdCounter = 1;
 
@@ -19,6 +21,13 @@ const todoManager = (() =>{
         projectIdCounter++;
         return newProject;
     }
+
+    const createTaskBin = (name) =>{
+        const newTaskBin = new Project(taskBinCounter,name);
+        taskBins.push(newTaskBin);
+        taskBinCounter++;
+        return newTaskBin;
+    }
     
     const deleteProject = (projectId) => {
         projects = projects.filter(p => p.id != projectId);
@@ -32,6 +41,7 @@ const todoManager = (() =>{
 
     const removeTaskFromProject = (project,task) =>{
         project.removeTask(task);
+        updateInbox();
     }
 
     const setTaskPriority = (project,taskId,priorityValue) =>{
@@ -49,12 +59,22 @@ const todoManager = (() =>{
         return projects;
     }
 
-    const inbox = createProject("Inbox");
+    const getTaskBins = () =>{
+        return taskBins;
+    }
+
+    const inbox = createTaskBin("Inbox");
     
     let currentProject = inbox;
     
-    const setCurrentProject = (project) =>{
-        currentProject = projects.find(p => p.id == project); 
+    const setCurrentProject = (project,collection) =>{
+        if(collection === 'project'){
+            currentProject = projects.find(p => p.id == project); 
+        }
+        
+        if(collection === 'menu'){
+            currentProject = taskBins.find(p => p.id == project);
+        }
     }
     
     const getCurrentProject = () =>{
@@ -94,6 +114,7 @@ const todoManager = (() =>{
         setTaskPriority,
         setTaskCompleteStatus,
         getProjects,
+        getTaskBins,
         setCurrentProject,
         getCurrentProject,
     }

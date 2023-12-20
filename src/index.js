@@ -4,6 +4,7 @@ import todoManager from "./modules/todoManager";
 
 const createProjectBtn = document.getElementById('createProjectBtn');
 
+uiControlller.renderTaskBins();
 uiControlller.renderProjects();
 
 createProjectBtn.addEventListener('click',()=>{
