@@ -37,11 +37,13 @@ const todoManager = (() =>{
         project.addTask(task);
         sortTasksByPriority(project);
         updateInbox();
+        updateToday();
     }
 
     const removeTaskFromProject = (project,task) =>{
         project.removeTask(task);
         updateInbox();
+        updateToday();
     }
 
     const setTaskPriority = (project,taskId,priorityValue) =>{
@@ -64,7 +66,8 @@ const todoManager = (() =>{
     }
 
     const inbox = createTaskBin("Inbox");
-    
+    const today = createTaskBin("Today");
+
     let currentProject = inbox;
     
     const setCurrentProject = (project,collection) =>{
@@ -103,6 +106,14 @@ const todoManager = (() =>{
         })
 
         sortTasksByPriority(inbox);
+    }
+
+    const updateToday = () =>{
+        today.tasks = [];
+
+        today.tasks = inbox.tasks.filter((task) => isToday(new Date(task.getDate())));
+
+        sortTasksByPriority(today);
     }
 
     return{
