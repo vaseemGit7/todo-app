@@ -1,4 +1,4 @@
-import { compareAsc, isToday } from "date-fns";
+import { compareAsc, isToday, isThisISOWeek } from "date-fns";
 import Task from "./task";
 import Project from "./project";
 
@@ -38,12 +38,14 @@ const todoManager = (() =>{
         sortTasksByPriority(project);
         updateInbox();
         updateToday();
+        updateThisWeek();
     }
 
     const removeTaskFromProject = (project,task) =>{
         project.removeTask(task);
         updateInbox();
         updateToday();
+        updateThisWeek();
     }
 
     const setTaskPriority = (project,taskId,priorityValue) =>{
@@ -67,6 +69,7 @@ const todoManager = (() =>{
 
     const inbox = createTaskBin("Inbox");
     const today = createTaskBin("Today");
+    const thisWeek = createTaskBin("This Week");
 
     let currentProject = inbox;
     
@@ -114,6 +117,14 @@ const todoManager = (() =>{
         today.tasks = inbox.tasks.filter((task) => isToday(new Date(task.getDate())));
 
         sortTasksByPriority(today);
+    }
+
+    const updateThisWeek = () =>{
+        thisWeek.tasks = [];
+
+        thisWeek.tasks = inbox.tasks.filter((task) => isThisISOWeek(new Date(task.getDate())));
+
+        sortTasksByPriority(thisWeek);
     }
 
     return{
