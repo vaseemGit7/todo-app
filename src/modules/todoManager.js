@@ -41,6 +41,11 @@ const todoManager = (() =>{
         updateThisWeek();
     }
 
+    const editTaskInProject = (project,taskId,title,description,priority,date) =>{
+        let selectedTask = project.tasks.find(task => task.id == taskId);
+        selectedTask.editTask(title,description,priority,date);
+    }
+
     const removeTaskFromProject = (project,task) =>{
         project.removeTask(task);
         updateInbox();
@@ -132,6 +137,7 @@ const todoManager = (() =>{
         createProject,
         deleteProject,
         addTaskToProject,
+        editTaskInProject,
         removeTaskFromProject,
         setTaskPriority,
         setTaskCompleteStatus,

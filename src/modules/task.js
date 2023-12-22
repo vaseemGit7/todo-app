@@ -8,6 +8,13 @@ export default class Task {
         this.completed = false; 
     }
 
+    editTask(title, description, priority, date){
+        this.title = title;
+        this.description = description;
+        this.priority = priority;
+        this.date = date;
+    }
+
     setPriority(priorityValue){
         this.priority = priorityValue;
     }

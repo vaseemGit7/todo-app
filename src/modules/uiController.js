@@ -89,6 +89,10 @@ const uiControlller = (() => {
         const taskId = document.createElement('p');
         taskId.textContent =`Task Id: ${task.id}`;
 
+        const editTaskBtn = document.createElement('button');
+        editTaskBtn.textContent = 'Edit Button';
+        editTaskBtn.classList.add('editTask-btn');
+
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Delete Button';
         deleteBtn.classList.add('delete-btn');
@@ -114,6 +118,7 @@ const uiControlller = (() => {
 
         taskPriority.addEventListener('change', handleTaskPriority);
         taskCheck.addEventListener('click', handleTaskComplete);
+        editTaskBtn.addEventListener('click', handleEditTask);
         deleteBtn.addEventListener('click',handleDeleteTask);
 
         taskCard.setAttribute('data-task-id',task.id);
@@ -124,6 +129,7 @@ const uiControlller = (() => {
         taskCard.appendChild(taskPriority);
         taskCard.appendChild(taskDate);
         taskCard.appendChild(taskId);
+        taskCard.appendChild(editTaskBtn);
         taskCard.appendChild(deleteBtn);
 
         tasksContainer.appendChild(taskCard);
@@ -141,7 +147,7 @@ const uiControlller = (() => {
         addTaskContainer.appendChild(addTaskBtn);
     }
 
-    const createTaskForm = () =>{
+    const createTaskForm = (action,task) =>{
         const tasksContainer = document.querySelector('.tasks-container');
 
         const taskForm = document.createElement('form');
@@ -198,20 +204,37 @@ const uiControlller = (() => {
         const cancelBtn = document.createElement('button');
         cancelBtn.id = 'cancelBtn';
         cancelBtn.textContent = 'Cancel';
-        
-        const addBtn = document.createElement('button');
-        addBtn.id = 'addBtn';
-        addBtn.textContent = 'Add';
 
-        addBtn.addEventListener('click',handleAddTask);
+        const actionBtn = document.createElement('button');
+        
+        if(action === 'add'){
+            actionBtn.id = 'addBtn';
+            actionBtn.textContent = 'Add';
+            actionBtn.addEventListener('click',handleAddTask);
+            console.log("Action ADD");
+        }
+
+        if(action === 'edit'){
+            taskForm.setAttribute('data-task-id',task.id);
+
+            titleInput.value = task.title;
+            descriptionInput.value = task.description;
+            prioritySelect.value = task.priority;
+            dateInput.value = task.date;
+
+            actionBtn.id = 'editBtn';
+            actionBtn.textContent = 'Edit'; 
+            actionBtn.addEventListener('click',handleEditTaskSubmit);
+            console.log("Action EDIT");
+        }
         
         rightPanel.appendChild(dueDateLabel);
         rightPanel.appendChild(dateInput);
         rightPanel.appendChild(priorityLabel);
         rightPanel.appendChild(prioritySelect);
         rightPanel.appendChild(cancelBtn);
-        rightPanel.appendChild(addBtn);
-        
+        rightPanel.appendChild(actionBtn);
+
         taskForm.appendChild(leftPanel);
         taskForm.appendChild(rightPanel);
         
@@ -273,7 +296,7 @@ const uiControlller = (() => {
     }
 
     const handleTaskForm = () =>{
-        createTaskForm();
+        createTaskForm('add');
 
         const taskForm = document.querySelector('.task-form');
         taskForm.classList.remove('disabled');
@@ -306,6 +329,42 @@ const uiControlller = (() => {
         renderTasks();
         console.log("It clicked");
         console.log(currentProject.tasks);
+    }
+
+    const handleEditTask = (event) =>{
+        const taskCard = event.target.closest('.task-card');
+        const taskId = taskCard.getAttribute('data-task-id');
+        const project = todoManager.getCurrentProject();
+
+        const task = project.tasks.find((task)=> task.id == taskId);
+        createTaskForm('edit',task);
+
+        const taskForm = document.querySelector('.task-form');
+        taskForm.classList.remove('disabled');
+
+        taskCard.classList.add('disabled');
+
+        console.log(event.target.closest('.task-card'));
+    }
+
+    const handleEditTaskSubmit = (event) =>{
+        event.preventDefault();
+
+        const taskForm = event.target.closest('.task-form');
+        const taskId = taskForm.getAttribute('data-task-id');
+        const taskCard = document.querySelector(`[data-task-id="${taskId}"]`);
+        const project = todoManager.getCurrentProject();
+
+        const editedTitle = document.querySelector('#titleInput').value;
+        const editedDescription = document.querySelector('#descriptionInput').value;
+        const editedPriority = document.querySelector('#priorityInput').value;
+        const editedDate = document.querySelector('#dateInput').value;
+        todoManager.editTaskInProject(project,taskId,editedTitle,editedDescription,editedPriority,editedDate);
+
+        taskForm.classList.add('disabled');
+
+        taskCard.classList.remove('disabled');
+        renderTasks();
     }
 
     const handleDeleteTask = (event) =>{
