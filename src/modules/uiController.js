@@ -1,6 +1,15 @@
 import todoManager from "./todoManager";
 
 const uiControlller = (() => {
+    const createProjectBtn = document.getElementById('createProjectBtn');
+    const dialogModal = document.querySelector('.dialog-modal');
+
+    createProjectBtn.addEventListener('click',(e)=>{
+        e.preventDefault();
+        dialogModal.showModal();
+        createProjectForm();
+    })
+
     const renderTaskBins = () =>{
         const taskBins = todoManager.getTaskBins();
 
@@ -241,6 +250,32 @@ const uiControlller = (() => {
         tasksContainer.appendChild(taskForm);
     }
 
+    const createProjectForm = () =>{
+        dialogModal.innerHTML = '';
+
+        const projectForm = document.createElement('form');
+        projectForm.id= 'projectForm';
+
+        const projectLabel = document.createElement('label');
+        projectLabel.textContent = "Project Name";
+
+        const projectNameInput = document.createElement('input');
+        projectNameInput.type = "text";
+        projectNameInput.id = "projectNameInput";
+        projectNameInput.name = "Project Name";
+
+        const createProjectBtn = document.createElement('button');
+        createProjectBtn.textContent = "Create Project";
+
+        createProjectBtn.addEventListener('click',handleAddProject);
+
+        projectForm.appendChild(projectLabel);
+        projectForm.appendChild(projectNameInput);
+        projectForm.appendChild(createProjectBtn);
+
+        dialogModal.appendChild(projectForm);
+    }
+
     const handleProjectSelection = (event) =>{
         const currentProjectName = document.querySelector('#currentProjectName');
         
@@ -305,6 +340,19 @@ const uiControlller = (() => {
         addTaskBtn.classList.add('disabled');
 
         console.log("FORM CREATED");
+    }
+
+    const handleAddProject =  (event) =>{
+        event.preventDefault();
+
+        const projectForm = document.querySelector('#projectForm');
+        const projectName = document.querySelector('#projectNameInput').value;
+
+        todoManager.createProject(projectName);
+        uiControlller.renderProjects();
+
+        projectForm.reset();
+        dialogModal.close();
     }
 
     const handleAddTask = (event) =>{
