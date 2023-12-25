@@ -9,8 +9,8 @@ const todoManager = (() =>{
     let projectIdCounter = 1;
     let todoIdCounter = 1;
 
-    const createTask = (title,description,priority,date) =>{
-        const newTask = new Task(todoIdCounter,title,description,priority,date);
+    const createTask = (title,description,priority,date,originId) =>{
+        const newTask = new Task(todoIdCounter,title,description,priority,date,originId);
         todoIdCounter++;
         return newTask;
     }
@@ -44,6 +44,10 @@ const todoManager = (() =>{
     const editTaskInProject = (project,taskId,title,description,priority,date) =>{
         let selectedTask = project.tasks.find(task => task.id == taskId);
         selectedTask.editTask(title,description,priority,date);
+
+        updateInbox();
+        updateToday();
+        updateThisWeek();
     }
 
     const removeTaskFromProject = (project,task) =>{

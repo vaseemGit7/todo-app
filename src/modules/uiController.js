@@ -131,6 +131,7 @@ const uiControlller = (() => {
         deleteBtn.addEventListener('click',handleDeleteTask);
 
         taskCard.setAttribute('data-task-id',task.id);
+        taskCard.setAttribute('data-origin-id',task.originId);
         
         taskCard.appendChild(taskCheck);
         taskCard.appendChild(taskTitle);
@@ -364,7 +365,7 @@ const uiControlller = (() => {
         const date = document.querySelector('#dateInput').value;
 
         const currentProject = todoManager.getCurrentProject();
-        const newTask = todoManager.createTask(title,description,priority,date);
+        const newTask = todoManager.createTask(title,description,priority,date,currentProject.id);
 
         todoManager.addTaskToProject(currentProject,newTask);
 
@@ -418,8 +419,12 @@ const uiControlller = (() => {
     const handleDeleteTask = (event) =>{
         const taskCard = event.target.closest('.task-card');
         const taskId = taskCard.getAttribute('data-task-id');
-        const project = todoManager.getCurrentProject();
+        const originId = taskCard.getAttribute('data-origin-id');
+        const projects = todoManager.getProjects();
+
+        const project = projects.find(p => p.id == originId);
         todoManager.removeTaskFromProject(project,taskId);
+        
         console.log("deleted");
         renderTasks();
     }
