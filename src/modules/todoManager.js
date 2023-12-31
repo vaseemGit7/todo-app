@@ -6,16 +6,18 @@ const todoManager = (() =>{
     let taskBins = [];
     let projects = [];
     let taskBinCounter = 1;
-    let projectIdCounter = 1;
-    let todoIdCounter = 1;
+    // let projectIdCounter = 1;
+    // let todoIdCounter = 1;
 
     const createTask = (title,description,priority,date,originId) =>{
+        let todoIdCounter = generateUniqueId();
         const newTask = new Task(todoIdCounter,title,description,priority,date,originId);
         todoIdCounter++;
         return newTask;
     }
 
     const createProject = (name) =>{
+        let projectIdCounter = generateUniqueId();
         const newProject = new Project(projectIdCounter,name);
         projects.push(newProject);
         projectIdCounter++;
@@ -134,6 +136,10 @@ const todoManager = (() =>{
         thisWeek.tasks = inbox.tasks.filter((task) => isThisISOWeek(new Date(task.getDate())));
 
         sortTasksByPriority(thisWeek);
+    }
+
+    const generateUniqueId = () =>{
+        return Date.now();
     }
 
     return{
