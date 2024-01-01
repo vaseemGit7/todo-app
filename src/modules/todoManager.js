@@ -1,18 +1,46 @@
 import { compareAsc, isToday, isThisISOWeek } from "date-fns";
 import Task from "./task";
 import Project from "./project";
+import storageManager from "./storageManager";
 
 const todoManager = (() =>{
     let taskBins = [];
     let projects = [];
     let taskBinCounter = 1;
-    // let projectIdCounter = 1;
-    // let todoIdCounter = 1;
+
+    const saveData = () =>{
+        storageManager.saveToLocalStorage({projects});
+    }
+
+    const loadData = () =>{
+        const loadedData = storageManager.loadFromLocalStorage();
+        if (loadedData) {
+            loadedData.projects.map(projectData => {
+                const project = new Project(projectData.id, projectData.name);
+                projectData.tasks.forEach(taskData => {
+                    const task = new Task(
+                        taskData.id,
+                        taskData.title,
+                        taskData.description,
+                        taskData.priority,
+                        taskData.date,
+                        taskData.originId
+                    );
+                    project.addTask(task);
+                });
+                projects.push(project);
+                updateInbox();
+                updateToday();
+                updateThisWeek();   
+            });
+        }
+    }
 
     const createTask = (title,description,priority,date,originId) =>{
         let todoIdCounter = generateUniqueId();
         const newTask = new Task(todoIdCounter,title,description,priority,date,originId);
         todoIdCounter++;
+        saveData();
         return newTask;
     }
 
@@ -21,6 +49,7 @@ const todoManager = (() =>{
         const newProject = new Project(projectIdCounter,name);
         projects.push(newProject);
         projectIdCounter++;
+        saveData();
         return newProject;
     }
 
@@ -33,6 +62,7 @@ const todoManager = (() =>{
     
     const deleteProject = (projectId) => {
         projects = projects.filter(p => p.id != projectId);
+        saveData();
     }
 
     const addTaskToProject = (project,task) =>{
@@ -41,6 +71,7 @@ const todoManager = (() =>{
         updateInbox();
         updateToday();
         updateThisWeek();
+        saveData();
     }
 
     const editTaskInProject = (project,taskId,title,description,priority,date) =>{
@@ -50,6 +81,7 @@ const todoManager = (() =>{
         updateInbox();
         updateToday();
         updateThisWeek();
+        saveData();
     }
 
     const removeTaskFromProject = (project,task) =>{
@@ -57,6 +89,7 @@ const todoManager = (() =>{
         updateInbox();
         updateToday();
         updateThisWeek();
+        saveData();
     }
 
     const setTaskPriority = (project,taskId,priorityValue) =>{
@@ -155,6 +188,7 @@ const todoManager = (() =>{
         getTaskBins,
         setCurrentProject,
         getCurrentProject,
+        loadData,
     }
 })();
 
