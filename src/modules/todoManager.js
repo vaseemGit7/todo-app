@@ -8,47 +8,23 @@ const todoManager = (() => {
   let projects = [];
   let taskBinCounter = 1;
 
+  const generateUniqueId = () => Date.now();
+
   const saveData = () => {
     storageManager.saveToLocalStorage({ projects });
   };
 
-  const loadData = () => {
-    const loadedData = storageManager.loadFromLocalStorage();
-    if (loadedData) {
-      loadedData.projects.map((projectData) => {
-        const project = new Project(projectData.id, projectData.name);
-        projectData.tasks.forEach((taskData) => {
-          const task = new Task(
-            taskData.id,
-            taskData.title,
-            taskData.description,
-            taskData.priority,
-            taskData.date,
-            taskData.originId,
-          );
-          project.addTask(task);
-        });
-        projects.push(project);
-        updateInbox();
-        updateToday();
-        updateThisWeek();
-      });
-    }
-  };
-
   const createTask = (title, description, priority, date, originId) => {
-    let todoIdCounter = generateUniqueId();
+    const todoIdCounter = generateUniqueId();
     const newTask = new Task(todoIdCounter, title, description, priority, date, originId);
-    todoIdCounter++;
     saveData();
     return newTask;
   };
 
   const createProject = (name) => {
-    let projectIdCounter = generateUniqueId();
+    const projectIdCounter = generateUniqueId();
     const newProject = new Project(projectIdCounter, name);
     projects.push(newProject);
-    projectIdCounter++;
     saveData();
     return newProject;
   };
@@ -56,86 +32,29 @@ const todoManager = (() => {
   const createTaskBin = (name) => {
     const newTaskBin = new Project(taskBinCounter, name);
     taskBins.push(newTaskBin);
-    taskBinCounter++;
+    taskBinCounter += 1;
     return newTaskBin;
   };
-
-  const deleteProject = (projectId) => {
-    projects = projects.filter((p) => p.id != projectId);
-    saveData();
-  };
-
-  const addTaskToProject = (project, task) => {
-    project.addTask(task);
-    sortTasksByPriority(project);
-    updateInbox();
-    updateToday();
-    updateThisWeek();
-    saveData();
-  };
-
-  const editTaskInProject = (project, taskId, title, description, priority, date) => {
-    const selectedTask = project.tasks.find((task) => task.id == taskId);
-    selectedTask.editTask(title, description, priority, date);
-
-    updateInbox();
-    updateToday();
-    updateThisWeek();
-    saveData();
-  };
-
-  const removeTaskFromProject = (project, task) => {
-    project.removeTask(task);
-    updateInbox();
-    updateToday();
-    updateThisWeek();
-    saveData();
-  };
-
-  const setTaskPriority = (project, taskId, priorityValue) => {
-    const selectedTask = project.tasks.find((task) => task.id == taskId);
-    selectedTask.setPriority(priorityValue);
-  };
-
-  const setTaskCompleteStatus = (project, taskId) => {
-    const selectedTask = project.tasks.find((task) => task.id == taskId);
-    selectedTask.setCompleted();
-    console.log(selectedTask);
-  };
-
-  const getProjects = () => projects;
-
-  const getTaskBins = () => taskBins;
-
-  const inbox = createTaskBin('Inbox');
-  const today = createTaskBin('Today');
-  const thisWeek = createTaskBin('This Week');
-
-  let currentProject = inbox;
-
-  const setCurrentProject = (project, collection) => {
-    if (collection === 'project') {
-      currentProject = projects.find((p) => p.id == project);
-    }
-
-    if (collection === 'menu') {
-      currentProject = taskBins.find((p) => p.id == project);
-    }
-  };
-
-  const getCurrentProject = () => currentProject;
 
   const sortTasksByPriority = (project) => {
     const priorityOrder = { high: 3, medium: 2, low: 1 };
 
-    const sortedByPriority = project.tasks.sort((taskA, taskB) => priorityOrder[taskB.priority] - priorityOrder[taskA.priority]);
+    const sortTasksByDate = (sortedByPriority) => {
+      const sortedByDate = sortedByPriority.sort((taskA, taskB) => compareAsc(
+        new Date(taskA.getDate()),
+        new Date(taskB.getDate()),
+      ));
+      return sortedByDate;
+    };
+
+    const sortedByPriority = project.tasks.sort((taskA, taskB) => priorityOrder[taskB.priority]
+    - priorityOrder[taskA.priority]);
     project.setTask(sortTasksByDate(sortedByPriority));
   };
 
-  const sortTasksByDate = (sortedByPriority) => {
-    const sortedByDate = sortedByPriority.sort((taskA, taskB) => compareAsc(new Date(taskA.getDate()), new Date(taskB.getDate())));
-    return sortedByDate;
-  };
+  const inbox = createTaskBin('Inbox');
+  const today = createTaskBin('Today');
+  const thisWeek = createTaskBin('This Week');
 
   const updateInbox = () => {
     inbox.tasks = [];
@@ -165,7 +84,86 @@ const todoManager = (() => {
     sortTasksByPriority(thisWeek);
   };
 
-  const generateUniqueId = () => Date.now();
+  const updateAndSaveData = () => {
+    updateInbox();
+    updateToday();
+    updateThisWeek();
+    saveData();
+  };
+
+  const deleteProject = (projectId) => {
+    projects = projects.filter((p) => p.id !== Number(projectId));
+    updateAndSaveData();
+  };
+
+  const addTaskToProject = (project, task) => {
+    project.addTask(task);
+    sortTasksByPriority(project);
+    updateAndSaveData();
+  };
+
+  const editTaskInProject = (project, taskId, title, description, priority, date) => {
+    const selectedTask = project.tasks.find((task) => task.id === Number(taskId));
+    selectedTask.editTask(title, description, priority, date);
+    updateAndSaveData();
+  };
+
+  const removeTaskFromProject = (project, task) => {
+    project.removeTask(task);
+    updateAndSaveData();
+  };
+
+  const setTaskPriority = (project, taskId, priorityValue) => {
+    const selectedTask = project.tasks.find((task) => task.id === Number(taskId));
+    selectedTask.setPriority(priorityValue);
+  };
+
+  const setTaskCompleteStatus = (project, taskId) => {
+    const selectedTask = project.tasks.find((task) => task.id === Number(taskId));
+    selectedTask.setCompleted();
+    console.log(selectedTask);
+  };
+
+  const getProjects = () => projects;
+
+  const getTaskBins = () => taskBins;
+
+  let currentProject = inbox;
+
+  const setCurrentProject = (projectId, collection) => {
+    if (collection === 'project') {
+      currentProject = projects.find((p) => p.id === Number(projectId));
+    }
+
+    if (collection === 'menu') {
+      currentProject = taskBins.find((p) => p.id === Number(projectId));
+    }
+  };
+
+  const loadData = () => {
+    const loadedData = storageManager.loadFromLocalStorage();
+    if (loadedData) {
+      projects = loadedData.projects.map((projectData) => {
+        const project = new Project(projectData.id, projectData.name);
+        projectData.tasks.forEach((taskData) => {
+          const task = new Task(
+            taskData.id,
+            taskData.title,
+            taskData.description,
+            taskData.priority,
+            taskData.date,
+            taskData.originId,
+          );
+          project.addTask(task);
+        });
+
+        return project;
+      });
+      updateAndSaveData();
+    }
+  };
+
+  const getCurrentProject = () => currentProject;
 
   return {
     createTask,
