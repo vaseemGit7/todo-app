@@ -112,7 +112,7 @@ const eventHandler = (() => {
     const taskId = taskCard.getAttribute('data-task-id');
     const project = todoManager.getCurrentProject();
 
-    const task = project.tasks.find((task) => task.id == taskId);
+    const task = project.tasks.find((t) => t.id === Number(taskId));
     pubsub.publish('CreateTaskForm', { action: 'edit', task });
 
     const taskForm = document.querySelector('.task-form');
@@ -135,7 +135,14 @@ const eventHandler = (() => {
     const editedDescription = document.querySelector('#descriptionInput').value;
     const editedPriority = document.querySelector('#priorityInput').value;
     const editedDate = document.querySelector('#dateInput').value;
-    todoManager.editTaskInProject(project, taskId, editedTitle, editedDescription, editedPriority, editedDate);
+    todoManager.editTaskInProject(
+      project,
+      taskId,
+      editedTitle,
+      editedDescription,
+      editedPriority,
+      editedDate,
+    );
 
     taskForm.classList.add('disabled');
 
@@ -149,7 +156,7 @@ const eventHandler = (() => {
     const originId = taskCard.getAttribute('data-origin-id');
     const projects = todoManager.getProjects();
 
-    const project = projects.find((p) => p.id == originId);
+    const project = projects.find((p) => p.id === Number(originId));
     todoManager.removeTaskFromProject(project, taskId);
 
     console.log('deleted');
