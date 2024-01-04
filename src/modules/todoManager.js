@@ -1,7 +1,7 @@
-import { compareAsc, isToday, isThisISOWeek } from 'date-fns';
-import Task from './task';
-import Project from './project';
-import storageManager from './storageManager';
+import { compareAsc, isToday, isThisISOWeek } from "date-fns";
+import Task from "./task";
+import Project from "./project";
+import storageManager from "./storageManager";
 
 const todoManager = (() => {
   const taskBins = [];
@@ -16,7 +16,14 @@ const todoManager = (() => {
 
   const createTask = (title, description, priority, date, originId) => {
     const todoIdCounter = generateUniqueId();
-    const newTask = new Task(todoIdCounter, title, description, priority, date, originId);
+    const newTask = new Task(
+      todoIdCounter,
+      title,
+      description,
+      priority,
+      date,
+      originId,
+    );
     saveData();
     return newTask;
   };
@@ -40,21 +47,22 @@ const todoManager = (() => {
     const priorityOrder = { high: 3, medium: 2, low: 1 };
 
     const sortTasksByDate = (sortedByPriority) => {
-      const sortedByDate = sortedByPriority.sort((taskA, taskB) => compareAsc(
-        new Date(taskA.getDate()),
-        new Date(taskB.getDate()),
-      ));
+      const sortedByDate = sortedByPriority.sort((taskA, taskB) =>
+        compareAsc(new Date(taskA.getDate()), new Date(taskB.getDate())),
+      );
       return sortedByDate;
     };
 
-    const sortedByPriority = project.tasks.sort((taskA, taskB) => priorityOrder[taskB.priority]
-    - priorityOrder[taskA.priority]);
+    const sortedByPriority = project.tasks.sort(
+      (taskA, taskB) =>
+        priorityOrder[taskB.priority] - priorityOrder[taskA.priority],
+    );
     project.setTask(sortTasksByDate(sortedByPriority));
   };
 
-  const inbox = createTaskBin('Inbox');
-  const today = createTaskBin('Today');
-  const thisWeek = createTaskBin('This Week');
+  const inbox = createTaskBin("Inbox");
+  const today = createTaskBin("Today");
+  const thisWeek = createTaskBin("This Week");
 
   const updateInbox = () => {
     inbox.tasks = [];
@@ -71,7 +79,9 @@ const todoManager = (() => {
   const updateToday = () => {
     today.tasks = [];
 
-    today.tasks = inbox.tasks.filter((task) => isToday(new Date(task.getDate())));
+    today.tasks = inbox.tasks.filter((task) =>
+      isToday(new Date(task.getDate())),
+    );
 
     sortTasksByPriority(today);
   };
@@ -79,7 +89,9 @@ const todoManager = (() => {
   const updateThisWeek = () => {
     thisWeek.tasks = [];
 
-    thisWeek.tasks = inbox.tasks.filter((task) => isThisISOWeek(new Date(task.getDate())));
+    thisWeek.tasks = inbox.tasks.filter((task) =>
+      isThisISOWeek(new Date(task.getDate())),
+    );
 
     sortTasksByPriority(thisWeek);
   };
@@ -102,8 +114,17 @@ const todoManager = (() => {
     updateAndSaveData();
   };
 
-  const editTaskInProject = (project, taskId, title, description, priority, date) => {
-    const selectedTask = project.tasks.find((task) => task.id === Number(taskId));
+  const editTaskInProject = (
+    project,
+    taskId,
+    title,
+    description,
+    priority,
+    date,
+  ) => {
+    const selectedTask = project.tasks.find(
+      (task) => task.id === Number(taskId),
+    );
     selectedTask.editTask(title, description, priority, date);
     updateAndSaveData();
   };
@@ -114,12 +135,16 @@ const todoManager = (() => {
   };
 
   const setTaskPriority = (project, taskId, priorityValue) => {
-    const selectedTask = project.tasks.find((task) => task.id === Number(taskId));
+    const selectedTask = project.tasks.find(
+      (task) => task.id === Number(taskId),
+    );
     selectedTask.setPriority(priorityValue);
   };
 
   const setTaskCompleteStatus = (project, taskId) => {
-    const selectedTask = project.tasks.find((task) => task.id === Number(taskId));
+    const selectedTask = project.tasks.find(
+      (task) => task.id === Number(taskId),
+    );
     selectedTask.setCompleted();
     console.log(selectedTask);
   };
@@ -131,11 +156,11 @@ const todoManager = (() => {
   let currentProject = inbox;
 
   const setCurrentProject = (projectId, collection) => {
-    if (collection === 'project') {
+    if (collection === "project") {
       currentProject = projects.find((p) => p.id === Number(projectId));
     }
 
-    if (collection === 'menu') {
+    if (collection === "menu") {
       currentProject = taskBins.find((p) => p.id === Number(projectId));
     }
   };

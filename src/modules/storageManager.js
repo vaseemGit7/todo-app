@@ -1,10 +1,10 @@
 const storageManager = (() => {
   const saveToLocalStorage = (data) => {
-    localStorage.setItem('projectStructure', JSON.stringify(data));
+    localStorage.setItem("projectStructure", JSON.stringify(data));
   };
 
   const loadFromLocalStorage = () => {
-    const loadedData = localStorage.getItem('projectStructure');
+    const loadedData = localStorage.getItem("projectStructure");
     return loadedData ? JSON.parse(loadedData) : null;
   };
 
