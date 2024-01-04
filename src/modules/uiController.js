@@ -5,31 +5,6 @@ const uiControlller = (() => {
   const createProjectBtn = document.getElementById('createProjectBtn');
   const dialogModal = document.querySelector('.dialog-modal');
 
-  createProjectBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    dialogModal.showModal();
-    createProjectForm();
-  });
-
-  const renderTaskBins = () => {
-    const taskBins = todoManager.getTaskBins();
-
-    for (let i = 0; i < taskBins.length; i++) {
-      displayProject(taskBins[i], 'taskBins');
-    }
-  };
-
-  const renderProjects = () => {
-    const workspaces = document.querySelector('.workspaces');
-    workspaces.innerHTML = '';
-
-    const projects = todoManager.getProjects();
-
-    for (let i = 0; i < projects.length; i++) {
-      displayProject(projects[i], 'projects');
-    }
-  };
-
   const displayProject = (project, collection) => {
     const menus = document.querySelector('.menus');
     const workspaces = document.querySelector('.workspaces');
@@ -62,18 +37,6 @@ const uiControlller = (() => {
     if (collection === 'taskBins') {
       projectCard.setAttribute('data-menu-id', project.id);
       menus.appendChild(projectCard);
-    }
-  };
-
-  const renderTasks = () => {
-    const tasksContainer = document.querySelector('.tasks-container');
-    tasksContainer.innerHTML = '';
-
-    const project = todoManager.getCurrentProject();
-    const { tasks } = project;
-
-    for (let i = 0; i < tasks.length; i++) {
-      displayTask(tasks[i]);
     }
   };
 
@@ -176,6 +139,34 @@ const uiControlller = (() => {
     addTaskContainer.appendChild(addTaskBtn);
   };
 
+  const createProjectForm = () => {
+    dialogModal.innerHTML = '';
+
+    const projectForm = document.createElement('form');
+    projectForm.id = 'projectForm';
+
+    const projectLabel = document.createElement('label');
+    projectLabel.textContent = 'Project Name';
+
+    const projectNameInput = document.createElement('input');
+    projectNameInput.type = 'text';
+    projectNameInput.id = 'projectNameInput';
+    projectNameInput.name = 'Project Name';
+
+    const addProjectBtn = document.createElement('button');
+    addProjectBtn.textContent = 'Add Project';
+
+    addProjectBtn.addEventListener('click', (event) => {
+      pubsub.publish('AddProject', event);
+    });
+
+    projectForm.appendChild(projectLabel);
+    projectForm.appendChild(projectNameInput);
+    projectForm.appendChild(createProjectBtn);
+
+    dialogModal.appendChild(projectForm);
+  };
+
   const createTaskForm = (action, task) => {
     const tasksContainer = document.querySelector('.tasks-container');
 
@@ -276,33 +267,42 @@ const uiControlller = (() => {
     tasksContainer.appendChild(taskForm);
   };
 
-  const createProjectForm = () => {
-    dialogModal.innerHTML = '';
+  const renderTaskBins = () => {
+    const taskBins = todoManager.getTaskBins();
 
-    const projectForm = document.createElement('form');
-    projectForm.id = 'projectForm';
-
-    const projectLabel = document.createElement('label');
-    projectLabel.textContent = 'Project Name';
-
-    const projectNameInput = document.createElement('input');
-    projectNameInput.type = 'text';
-    projectNameInput.id = 'projectNameInput';
-    projectNameInput.name = 'Project Name';
-
-    const createProjectBtn = document.createElement('button');
-    createProjectBtn.textContent = 'Create Project';
-
-    createProjectBtn.addEventListener('click', (event) => {
-      pubsub.publish('AddProject', event);
-    });
-
-    projectForm.appendChild(projectLabel);
-    projectForm.appendChild(projectNameInput);
-    projectForm.appendChild(createProjectBtn);
-
-    dialogModal.appendChild(projectForm);
+    for (let i = 0; i < taskBins.length; i++) {
+      displayProject(taskBins[i], 'taskBins');
+    }
   };
+
+  const renderProjects = () => {
+    const workspaces = document.querySelector('.workspaces');
+    workspaces.innerHTML = '';
+
+    const projects = todoManager.getProjects();
+
+    for (let i = 0; i < projects.length; i++) {
+      displayProject(projects[i], 'projects');
+    }
+  };
+
+  const renderTasks = () => {
+    const tasksContainer = document.querySelector('.tasks-container');
+    tasksContainer.innerHTML = '';
+
+    const project = todoManager.getCurrentProject();
+    const { tasks } = project;
+
+    for (let i = 0; i < tasks.length; i++) {
+      displayTask(tasks[i]);
+    }
+  };
+
+  createProjectBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    dialogModal.showModal();
+    createProjectForm();
+  });
 
   pubsub.subscribe('UpdateTasks', renderTasks);
   pubsub.subscribe('UpdateProjects', renderProjects);
