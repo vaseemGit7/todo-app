@@ -1,5 +1,5 @@
 import todoManager from './todoManager';
-import eventHandler from './eventHandler';
+import pubsub from './pubsubManager';
 
 const uiControlller = (() => {
   const createProjectBtn = document.getElementById('createProjectBtn');
@@ -41,14 +41,18 @@ const uiControlller = (() => {
     projectNav.textContent = project.name;
     projectNav.classList.add('project-nav');
 
-    projectNav.addEventListener('click', eventHandler.handleProjectSelection);
+    projectNav.addEventListener('click', (event) => {
+      pubsub.publish('SelectProject', event);
+    });
     projectCard.appendChild(projectNav);
 
     if (collection === 'projects') {
       const deleteProjectBtn = document.createElement('button');
       deleteProjectBtn.textContent = 'Delete';
 
-      deleteProjectBtn.addEventListener('click', eventHandler.handleProjectDeletion);
+      deleteProjectBtn.addEventListener('click', (event) => {
+        pubsub.publish('DeleteProject', event);
+      });
 
       projectCard.setAttribute('data-project-id', project.id);
       projectCard.appendChild(deleteProjectBtn);
@@ -126,10 +130,21 @@ const uiControlller = (() => {
       taskCheck.classList.add('task-checked');
     }
 
-    taskPriority.addEventListener('change', eventHandler.handleTaskPriority);
-    taskCheck.addEventListener('click', eventHandler.handleTaskComplete);
-    editTaskBtn.addEventListener('click', eventHandler.handleEditTask);
-    deleteBtn.addEventListener('click', eventHandler.handleDeleteTask);
+    taskPriority.addEventListener('change', (event) => {
+      pubsub.publish('ChangePriority', event);
+    });
+
+    taskCheck.addEventListener('click', (event) => {
+      pubsub.publish('CompletekTask', event);
+    });
+
+    editTaskBtn.addEventListener('click', (event) => {
+      pubsub.publish('TriggerEditTask', event);
+    });
+
+    deleteBtn.addEventListener('click', (event) => {
+      pubsub.publish('DeleteTask', event);
+    });
 
     taskCard.setAttribute('data-task-id', task.id);
     taskCard.setAttribute('data-origin-id', task.originId);
@@ -153,7 +168,10 @@ const uiControlller = (() => {
     const addTaskBtn = document.createElement('button');
     addTaskBtn.textContent = 'Add Task';
     addTaskBtn.classList.add('addTask-btn');
-    addTaskBtn.addEventListener('click', eventHandler.handleTaskForm);
+
+    addTaskBtn.addEventListener('click', (event) => {
+      pubsub.publish('TaskForm', event);
+    });
 
     addTaskContainer.appendChild(addTaskBtn);
   };
@@ -221,7 +239,10 @@ const uiControlller = (() => {
     if (action === 'add') {
       actionBtn.id = 'addBtn';
       actionBtn.textContent = 'Add';
-      actionBtn.addEventListener('click', eventHandler.handleAddTask);
+
+      actionBtn.addEventListener('click', (event) => {
+        pubsub.publish('AddTask', event);
+      });
       console.log('Action ADD');
     }
 
@@ -235,7 +256,10 @@ const uiControlller = (() => {
 
       actionBtn.id = 'editBtn';
       actionBtn.textContent = 'Edit';
-      actionBtn.addEventListener('click', eventHandler.handleEditTaskSubmit);
+
+      actionBtn.addEventListener('click', (event) => {
+        pubsub.publish('EditTask', event);
+      });
       console.log('Action EDIT');
     }
 
@@ -269,7 +293,9 @@ const uiControlller = (() => {
     const createProjectBtn = document.createElement('button');
     createProjectBtn.textContent = 'Create Project';
 
-    createProjectBtn.addEventListener('click', eventHandler.handleAddProject);
+    createProjectBtn.addEventListener('click', (event) => {
+      pubsub.publish('AddProject', event);
+    });
 
     projectForm.appendChild(projectLabel);
     projectForm.appendChild(projectNameInput);
@@ -278,10 +304,12 @@ const uiControlller = (() => {
     dialogModal.appendChild(projectForm);
   };
 
+  pubsub.subscribe('UpdateTasks', renderTasks);
+  pubsub.subscribe('UpdateProjects', renderProjects);
+  pubsub.subscribe('CreateAddTaskBtn', createAddTaskBtn);
+  pubsub.subscribe('CreateTaskForm', ({ action, task }) => createTaskForm(action, task));
+
   return {
-    createAddTaskBtn,
-    createTaskForm,
-    renderTasks,
     renderProjects,
     renderTaskBins,
   };

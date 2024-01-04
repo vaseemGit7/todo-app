@@ -1,5 +1,5 @@
 import todoManager from './todoManager';
-import uiControlller from './uiController';
+import pubsub from './pubsubManager';
 
 const eventHandler = (() => {
   const dialogModal = document.querySelector('.dialog-modal');
@@ -15,7 +15,7 @@ const eventHandler = (() => {
       const projectId = projectCard.getAttribute('data-project-id');
       todoManager.setCurrentProject(projectId, 'project');
       console.log(`Current Project: ${projectId}`);
-      uiControlller.createAddTaskBtn();
+      pubsub.publish('CreateAddTaskBtn');
     }
 
     if (isMenuCollection) {
@@ -27,7 +27,7 @@ const eventHandler = (() => {
     const currentProject = todoManager.getCurrentProject();
     currentProjectName.textContent = currentProject.name;
 
-    uiControlller.renderTasks();
+    pubsub.publish('UpdateTasks');
   };
 
   const handleProjectDeletion = (event) => {
@@ -36,7 +36,7 @@ const eventHandler = (() => {
 
     todoManager.deleteProject(projectId);
     todoManager.setCurrentProject(undefined);
-    uiControlller.renderProjects();
+    pubsub.publish('UpdateProjects');
   };
 
   const handleTaskComplete = (event) => {
@@ -45,7 +45,7 @@ const eventHandler = (() => {
 
     const project = todoManager.getCurrentProject();
     todoManager.setTaskCompleteStatus(project, taskId);
-    uiControlller.renderTasks();
+    pubsub.publish('UpdateTasks');
   };
 
   const handleTaskPriority = (event) => {
@@ -55,11 +55,11 @@ const eventHandler = (() => {
 
     const project = todoManager.getCurrentProject();
     todoManager.setTaskPriority(project, taskId, priorityValue);
-    uiControlller.renderTasks();
+    pubsub.publish('UpdateTasks');
   };
 
   const handleTaskForm = () => {
-    uiControlller.createTaskForm('add');
+    pubsub.publish('CreateTaskForm', { action: 'add' });
 
     const taskForm = document.querySelector('.task-form');
     taskForm.classList.remove('disabled');
@@ -77,7 +77,7 @@ const eventHandler = (() => {
     const projectName = document.querySelector('#projectNameInput').value;
 
     todoManager.createProject(projectName);
-    uiControlller.renderProjects();
+    pubsub.publish('UpdateProjects');
 
     projectForm.reset();
     dialogModal.close();
@@ -102,7 +102,7 @@ const eventHandler = (() => {
     const addTaskBtn = document.querySelector('.addTask-btn');
     addTaskBtn.classList.remove('disabled');
 
-    uiControlller.renderTasks();
+    pubsub.publish('UpdateTasks');
     console.log('It clicked');
     console.log(currentProject.tasks);
   };
@@ -113,7 +113,7 @@ const eventHandler = (() => {
     const project = todoManager.getCurrentProject();
 
     const task = project.tasks.find((task) => task.id == taskId);
-    uiControlller.createTaskForm('edit', task);
+    pubsub.publish('CreateTaskForm', { action: 'edit', task });
 
     const taskForm = document.querySelector('.task-form');
     taskForm.classList.remove('disabled');
@@ -140,7 +140,7 @@ const eventHandler = (() => {
     taskForm.classList.add('disabled');
 
     taskCard.classList.remove('disabled');
-    uiControlller.renderTasks();
+    pubsub.publish('UpdateTasks');
   };
 
   const handleDeleteTask = (event) => {
@@ -153,20 +153,24 @@ const eventHandler = (() => {
     todoManager.removeTaskFromProject(project, taskId);
 
     console.log('deleted');
-    uiControlller.renderTasks();
+    pubsub.publish('UpdateTasks');
+  };
+
+  const init = () => {
+    pubsub.subscribe('SelectProject', (event) => handleProjectSelection(event));
+    pubsub.subscribe('DeleteProject', (event) => handleProjectDeletion(event));
+    pubsub.subscribe('ChangePriority', (event) => handleTaskPriority(event));
+    pubsub.subscribe('CompletekTask', (event) => handleTaskComplete(event));
+    pubsub.subscribe('TriggerEditTask', (event) => handleEditTask(event));
+    pubsub.subscribe('TaskForm', (event) => handleTaskForm(event));
+    pubsub.subscribe('AddTask', (event) => handleAddTask(event));
+    pubsub.subscribe('EditTask', (event) => handleEditTaskSubmit(event));
+    pubsub.subscribe('AddProject', (event) => handleAddProject(event));
+    pubsub.subscribe('DeleteTask', (event) => handleDeleteTask(event));
   };
 
   return {
-    handleAddProject,
-    handleAddTask,
-    handleEditTask,
-    handleEditTaskSubmit,
-    handleDeleteTask,
-    handleProjectSelection,
-    handleProjectDeletion,
-    handleTaskForm,
-    handleTaskComplete,
-    handleTaskPriority,
+    init,
   };
 })();
 export default eventHandler;
