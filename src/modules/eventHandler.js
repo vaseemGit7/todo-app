@@ -213,6 +213,14 @@ const eventHandler = (() => {
     pubsub.subscribe("TaskForm", (event) => handleTaskForm(event));
   };
 
+  window.onload = () => {
+    const currentProjectName = document.querySelector("#currentProjectName");
+
+    const currentProject = todoManager.getCurrentProject();
+    currentProjectName.textContent = currentProject.name;
+
+    pubsub.publish("UpdateTasks");
+  };
   return {
     init,
   };
