@@ -32,6 +32,33 @@ const eventHandler = (() => {
     pubsub.publish("UpdateTasks");
   };
 
+  const handleEditProject = (event) => {
+    event.preventDefault();
+
+    const projectCard = event.target.closest(".project-card");
+    const projectId = projectCard.getAttribute("data-project-id");
+    const projects = todoManager.getProjects();
+
+    const project = projects.find((p) => p.id === Number(projectId));
+    pubsub.publish("CreateProjectForm", { action: "edit", project });
+
+    dialogModal.showModal();
+  };
+
+  const handleEditProjectSubmit = (event) => {
+    event.preventDefault();
+
+    const projectForm = event.target.closest("#projectForm");
+    const projectId = projectForm.getAttribute("data-project-id");
+
+    const projectName = document.querySelector("#projectNameInput").value;
+
+    todoManager.updateProject(projectId, projectName);
+
+    dialogModal.close();
+    pubsub.publish("UpdateProjects");
+  };
+
   const handleProjectDeletion = (event) => {
     const projectCard = event.target.closest(".project-card");
     const projectId = projectCard.getAttribute("data-project-id");
@@ -172,16 +199,18 @@ const eventHandler = (() => {
   };
 
   const init = () => {
-    pubsub.subscribe("SelectProject", (event) => handleProjectSelection(event));
+    pubsub.subscribe("AddProject", (event) => handleAddProject(event));
+    pubsub.subscribe("EditProject", (event) => handleEditProjectSubmit(event));
     pubsub.subscribe("DeleteProject", (event) => handleProjectDeletion(event));
-    pubsub.subscribe("ChangePriority", (event) => handleTaskPriority(event));
-    pubsub.subscribe("CompletekTask", (event) => handleTaskComplete(event));
-    pubsub.subscribe("TriggerEditTask", (event) => handleEditTask(event));
-    pubsub.subscribe("TaskForm", (event) => handleTaskForm(event));
+    pubsub.subscribe("TriggerEditProject", (event) => handleEditProject(event));
+    pubsub.subscribe("SelectProject", (event) => handleProjectSelection(event));
     pubsub.subscribe("AddTask", (event) => handleAddTask(event));
     pubsub.subscribe("EditTask", (event) => handleEditTaskSubmit(event));
-    pubsub.subscribe("AddProject", (event) => handleAddProject(event));
     pubsub.subscribe("DeleteTask", (event) => handleDeleteTask(event));
+    pubsub.subscribe("TriggerEditTask", (event) => handleEditTask(event));
+    pubsub.subscribe("ChangePriority", (event) => handleTaskPriority(event));
+    pubsub.subscribe("CompletekTask", (event) => handleTaskComplete(event));
+    pubsub.subscribe("TaskForm", (event) => handleTaskForm(event));
   };
 
   return {

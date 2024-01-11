@@ -22,14 +22,22 @@ const uiControlller = (() => {
     projectCard.appendChild(projectNav);
 
     if (collection === "projects") {
+      const editProjectBtn = document.createElement("button");
+      editProjectBtn.textContent = "Edit";
+
       const deleteProjectBtn = document.createElement("button");
       deleteProjectBtn.textContent = "Delete";
+
+      editProjectBtn.addEventListener("click", (event) => {
+        pubsub.publish("TriggerEditProject", event);
+      });
 
       deleteProjectBtn.addEventListener("click", (event) => {
         pubsub.publish("DeleteProject", event);
       });
 
       projectCard.setAttribute("data-project-id", project.id);
+      projectCard.appendChild(editProjectBtn);
       projectCard.appendChild(deleteProjectBtn);
       workspaces.appendChild(projectCard);
     }
@@ -140,7 +148,7 @@ const uiControlller = (() => {
     addTaskContainer.appendChild(addTaskBtn);
   };
 
-  const createProjectForm = () => {
+  const createProjectForm = (action, project) => {
     dialogModal.innerHTML = "";
 
     const projectForm = document.createElement("form");
@@ -154,16 +162,30 @@ const uiControlller = (() => {
     projectNameInput.id = "projectNameInput";
     projectNameInput.name = "Project Name";
 
-    const addProjectBtn = document.createElement("button");
-    addProjectBtn.textContent = "Add Project";
+    const actionBtn = document.createElement("button");
 
-    addProjectBtn.addEventListener("click", (event) => {
-      pubsub.publish("AddProject", event);
-    });
+    if (action === "add") {
+      actionBtn.textContent = "Add Project";
+
+      actionBtn.addEventListener("click", (event) => {
+        pubsub.publish("AddProject", event);
+      });
+    }
+
+    if (action === "edit") {
+      projectForm.setAttribute("data-project-id", project.id);
+      projectNameInput.value = project.name;
+
+      actionBtn.textContent = "Edit project";
+
+      actionBtn.addEventListener("click", (event) => {
+        pubsub.publish("EditProject", event);
+      });
+    }
 
     projectForm.appendChild(projectLabel);
     projectForm.appendChild(projectNameInput);
-    projectForm.appendChild(createProjectBtn);
+    projectForm.appendChild(actionBtn);
 
     dialogModal.appendChild(projectForm);
   };
@@ -302,7 +324,7 @@ const uiControlller = (() => {
   createProjectBtn.addEventListener("click", (e) => {
     e.preventDefault();
     dialogModal.showModal();
-    createProjectForm();
+    createProjectForm("add");
   });
 
   pubsub.subscribe("UpdateTasks", renderTasks);
@@ -310,6 +332,9 @@ const uiControlller = (() => {
   pubsub.subscribe("CreateAddTaskBtn", createAddTaskBtn);
   pubsub.subscribe("CreateTaskForm", ({ action, task }) =>
     createTaskForm(action, task),
+  );
+  pubsub.subscribe("CreateProjectForm", ({ action, project }) =>
+    createProjectForm(action, project),
   );
 
   return {

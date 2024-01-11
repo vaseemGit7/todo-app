@@ -103,6 +103,11 @@ const todoManager = (() => {
     saveData();
   };
 
+  const updateProject = (projectId, name) => {
+    const selectedProject = projects.find((p) => p.id === Number(projectId));
+    selectedProject.editProject(name);
+  };
+
   const deleteProject = (projectId) => {
     projects = projects.filter((p) => p.id !== Number(projectId));
     updateAndSaveData();
@@ -193,6 +198,7 @@ const todoManager = (() => {
   return {
     createTask,
     createProject,
+    updateProject,
     deleteProject,
     addTaskToProject,
     editTaskInProject,

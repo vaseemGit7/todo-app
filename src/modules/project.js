@@ -5,6 +5,10 @@ export default class Project {
     this.tasks = [];
   }
 
+  editProject(name) {
+    this.name = name;
+  }
+
   addTask(task) {
     this.tasks.push(task);
   }
