@@ -44,7 +44,8 @@ html {
   font-size: 2rem;
 }
 
-.tasks-container {
+.tasks-container,
+.completed-tasks-container {
   display: flex;
   flex-direction: column;
   background-color: gainsboro;
@@ -52,6 +53,10 @@ html {
   font-size: 1.8rem;
   padding: 15px;
   margin-top: 20px;
+}
+
+.completed-tasks-container {
+  background-color: aquamarine;
 }
 
 .task-form {

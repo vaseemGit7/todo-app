@@ -3,6 +3,7 @@ import pubsub from "./pubsubManager";
 
 const uiControlller = (() => {
   const createProjectBtn = document.getElementById("createProjectBtn");
+  const revealCompletedBtn = document.getElementById("revealCompleted");
   const dialogModal = document.querySelector(".dialog-modal");
 
   const displayProject = (project, collection) => {
@@ -50,6 +51,9 @@ const uiControlller = (() => {
 
   const displayTask = (task) => {
     const tasksContainer = document.querySelector(".tasks-container");
+    const completedTasksContainer = document.querySelector(
+      ".completed-tasks-container",
+    );
     const taskCard = document.createElement("div");
     taskCard.classList.add("task-card");
 
@@ -130,7 +134,11 @@ const uiControlller = (() => {
     taskCard.appendChild(editTaskBtn);
     taskCard.appendChild(deleteBtn);
 
-    tasksContainer.appendChild(taskCard);
+    if (task.completed === true) {
+      completedTasksContainer.appendChild(taskCard);
+    } else {
+      tasksContainer.appendChild(taskCard);
+    }
   };
 
   const createAddTaskBtn = () => {
@@ -311,7 +319,11 @@ const uiControlller = (() => {
 
   const renderTasks = () => {
     const tasksContainer = document.querySelector(".tasks-container");
+    const completedTasksContainer = document.querySelector(
+      ".completed-tasks-container",
+    );
     tasksContainer.innerHTML = "";
+    completedTasksContainer.innerHTML = "";
 
     const project = todoManager.getCurrentProject();
     const { tasks } = project;
@@ -325,6 +337,13 @@ const uiControlller = (() => {
     e.preventDefault();
     dialogModal.showModal();
     createProjectForm("add");
+  });
+
+  revealCompletedBtn.addEventListener("click", () => {
+    const completedTasksContainer = document.querySelector(
+      ".completed-tasks-container",
+    );
+    completedTasksContainer.classList.toggle("disabled");
   });
 
   pubsub.subscribe("UpdateTasks", renderTasks);
