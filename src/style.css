@@ -15,25 +15,42 @@ html {
 
 .app-container {
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: max-content 3fr;
 }
 
 .sidebar {
   height: 100vh;
-  display: grid;
-  place-items: center;
-  background-color: cadetblue;
+  background-color: #27272a;
+  color: white;
 }
 
 .sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, max-content);
+  gap: 40px;
+  padding: 30px 20px;
 }
 
+.menus-section,
 .workspaces {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.project-card {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #18181b;
+  border-radius: 10px;
+  padding: 10px 5px;
+  cursor: pointer;
+}
+
+.project-nav {
+  font-size: 1.8rem;
 }
 
 .content {
