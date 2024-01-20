@@ -7,13 +7,13 @@ const uiControlller = (() => {
   const dialogModal = document.querySelector(".dialog-modal");
 
   const displayProject = (project, collection) => {
-    const menus = document.querySelector(".menus");
+    const menus = document.querySelector(".menus-section");
     const workspaces = document.querySelector(".workspaces");
 
     const projectCard = document.createElement("div");
     projectCard.classList.add("project-card");
 
-    const projectNav = document.createElement("button");
+    const projectNav = document.createElement("div");
     projectNav.textContent = project.name;
     projectNav.classList.add("project-nav");
 
@@ -23,10 +23,10 @@ const uiControlller = (() => {
     projectCard.appendChild(projectNav);
 
     if (collection === "projects") {
-      const editProjectBtn = document.createElement("button");
+      const editProjectBtn = document.createElement("div");
       editProjectBtn.textContent = "Edit";
 
-      const deleteProjectBtn = document.createElement("button");
+      const deleteProjectBtn = document.createElement("div");
       deleteProjectBtn.textContent = "Delete";
 
       editProjectBtn.addEventListener("click", (event) => {

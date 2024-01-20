@@ -11,7 +11,7 @@ const eventHandler = (() => {
     const isProjectCollection =
       projectCard.parentElement.classList.contains("workspaces");
     const isMenuCollection =
-      projectCard.parentElement.classList.contains("menus");
+      projectCard.parentElement.classList.contains("menus-section");
 
     if (isProjectCollection) {
       const projectId = projectCard.getAttribute("data-project-id");
