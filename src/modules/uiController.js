@@ -3,7 +3,7 @@ import pubsub from "./pubsubManager";
 
 const uiControlller = (() => {
   const createProjectBtn = document.getElementById("createProjectBtn");
-  const revealCompletedBtn = document.getElementById("revealCompleted");
+  const revealCompletedBtn = document.getElementById("showDoneTasksBtn");
   const dialogModal = document.querySelector(".dialog-modal");
 
   const displayProject = (project, collection) => {
@@ -52,7 +52,7 @@ const uiControlller = (() => {
   const displayTask = (task) => {
     const tasksContainer = document.querySelector(".tasks-container");
     const completedTasksContainer = document.querySelector(
-      ".completed-tasks-container",
+      ".tasks-completed-container",
     );
     const taskCard = document.createElement("div");
     taskCard.classList.add("task-card");
@@ -142,7 +142,7 @@ const uiControlller = (() => {
   };
 
   const createAddTaskBtn = () => {
-    const addTaskContainer = document.querySelector(".add-task-container");
+    const addTaskContainer = document.querySelector(".tasks-add-popup");
     addTaskContainer.innerHTML = "";
 
     const addTaskBtn = document.createElement("button");
@@ -199,7 +199,7 @@ const uiControlller = (() => {
   };
 
   const createTaskForm = (action, task) => {
-    const tasksContainer = document.querySelector(".tasks-container");
+    const tasksAddPopup = document.querySelector(".tasks-add-popup");
 
     const taskForm = document.createElement("form");
     taskForm.id = "taskForm";
@@ -295,7 +295,7 @@ const uiControlller = (() => {
     taskForm.appendChild(leftPanel);
     taskForm.appendChild(rightPanel);
 
-    tasksContainer.appendChild(taskForm);
+    tasksAddPopup.appendChild(taskForm);
   };
 
   const renderTaskBins = () => {
@@ -320,7 +320,7 @@ const uiControlller = (() => {
   const renderTasks = () => {
     const tasksContainer = document.querySelector(".tasks-container");
     const completedTasksContainer = document.querySelector(
-      ".completed-tasks-container",
+      ".tasks-completed-container",
     );
     tasksContainer.innerHTML = "";
     completedTasksContainer.innerHTML = "";
@@ -341,7 +341,7 @@ const uiControlller = (() => {
 
   revealCompletedBtn.addEventListener("click", () => {
     const completedTasksContainer = document.querySelector(
-      ".completed-tasks-container",
+      ".tasks-completed-container",
     );
     completedTasksContainer.classList.toggle("disabled");
   });
