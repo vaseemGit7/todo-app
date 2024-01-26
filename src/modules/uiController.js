@@ -54,6 +54,13 @@ const uiControlller = (() => {
     const completedTasksContainer = document.querySelector(
       ".tasks-completed-container",
     );
+
+    const cardLeft = document.createElement("div");
+    cardLeft.classList.add("card-left");
+
+    const cardRight = document.createElement("div");
+    cardRight.classList.add("card-right");
+
     const taskCard = document.createElement("div");
     taskCard.classList.add("task-card");
 
@@ -64,51 +71,51 @@ const uiControlller = (() => {
     taskTitle.textContent = task.title;
     taskTitle.classList.add("task-title");
 
-    const taskDescription = document.createElement("p");
-    taskDescription.textContent = task.description;
-    taskDescription.classList.add("task-description");
+    // const taskDescription = document.createElement("p");
+    // taskDescription.textContent = task.description;
+    // taskDescription.classList.add("task-description");
 
-    const taskPriority = document.createElement("select");
-    taskPriority.className = "task-priority";
+    // const taskPriority = document.createElement("select");
+    // taskPriority.className = "task-priority";
 
     const taskDate = document.createElement("p");
     taskDate.textContent = task.date;
     taskDate.classList.add("task-date");
 
-    const taskId = document.createElement("p");
-    taskId.textContent = `Task Id: ${task.id}`;
+    // const taskId = document.createElement("p");
+    // taskId.textContent = `Task Id: ${task.id}`;
 
     const editTaskBtn = document.createElement("button");
-    editTaskBtn.textContent = "Edit Button";
+    editTaskBtn.textContent = "E";
     editTaskBtn.classList.add("editTask-btn");
 
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete Button";
+    deleteBtn.textContent = "D";
     deleteBtn.classList.add("delete-btn");
 
-    const priorityOptions = ["high", "medium", "low"];
+    // const priorityOptions = ["high", "medium", "low"];
 
-    priorityOptions.forEach((optionValue) => {
-      const option = document.createElement("option");
-      option.value = optionValue;
-      option.textContent =
-        optionValue.charAt(0).toUpperCase() + optionValue.slice(1);
+    // priorityOptions.forEach((optionValue) => {
+    //   const option = document.createElement("option");
+    //   option.value = optionValue;
+    //   option.textContent =
+    //     optionValue.charAt(0).toUpperCase() + optionValue.slice(1);
 
-      if (optionValue === task.priority) {
-        option.selected = true;
-      }
+    //   if (optionValue === task.priority) {
+    //     option.selected = true;
+    //   }
 
-      taskPriority.appendChild(option);
-    });
+    //   taskPriority.appendChild(option);
+    // });
 
     if (task.completed === true) {
       taskCard.classList.add("task-done");
       taskCheck.classList.add("task-checked");
     }
 
-    taskPriority.addEventListener("change", (event) => {
-      pubsub.publish("ChangePriority", event);
-    });
+    // taskPriority.addEventListener("change", (event) => {
+    //   pubsub.publish("ChangePriority", event);
+    // });
 
     taskCheck.addEventListener("click", (event) => {
       pubsub.publish("CompletekTask", event);
@@ -125,14 +132,15 @@ const uiControlller = (() => {
     taskCard.setAttribute("data-task-id", task.id);
     taskCard.setAttribute("data-origin-id", task.originId);
 
-    taskCard.appendChild(taskCheck);
-    taskCard.appendChild(taskTitle);
-    taskCard.appendChild(taskDescription);
-    taskCard.appendChild(taskPriority);
-    taskCard.appendChild(taskDate);
-    taskCard.appendChild(taskId);
-    taskCard.appendChild(editTaskBtn);
-    taskCard.appendChild(deleteBtn);
+    cardLeft.appendChild(taskCheck);
+    cardLeft.appendChild(taskTitle);
+
+    cardRight.appendChild(taskDate);
+    cardRight.appendChild(editTaskBtn);
+    cardRight.appendChild(deleteBtn);
+
+    taskCard.appendChild(cardLeft);
+    taskCard.appendChild(cardRight);
 
     if (task.completed === true) {
       completedTasksContainer.appendChild(taskCard);
