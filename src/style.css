@@ -168,3 +168,13 @@ html {
   align-items: center;
   padding: 20px;
 }
+
+.dialog-modal {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
+}
