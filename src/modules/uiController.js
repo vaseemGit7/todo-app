@@ -214,15 +214,49 @@ const uiControlller = (() => {
     taskForm.classList.add("task-form");
     taskForm.classList.add("disabled");
 
-    const leftPanel = document.createElement("div");
-    leftPanel.classList.add("left-panel");
+    const topPanel = document.createElement("div");
+    topPanel.classList.add("top-panel");
 
-    const titleLabel = document.createElement("label");
-    titleLabel.textContent = "Title";
+    const taskCheck = document.createElement("div");
+    taskCheck.classList.add("task-check");
+
     const titleInput = document.createElement("input");
     titleInput.type = "text";
     titleInput.id = "titleInput";
     titleInput.name = "title";
+
+    const taskDate = document.createElement("p");
+    taskDate.textContent = task.date;
+    taskDate.classList.add("task-date");
+
+    const editTaskBtn = document.createElement("button");
+    editTaskBtn.textContent = "E";
+    editTaskBtn.classList.add("editTask-btn");
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "D";
+    deleteBtn.classList.add("delete-btn");
+
+    const topLeft = document.createElement("div");
+    topLeft.classList.add("card-left");
+
+    const topRight = document.createElement("div");
+    topRight.classList.add("card-right");
+
+    topLeft.appendChild(taskCheck);
+    topLeft.appendChild(titleInput);
+    topRight.appendChild(taskDate);
+    topRight.appendChild(editTaskBtn);
+    topRight.appendChild(deleteBtn);
+
+    topPanel.appendChild(topLeft);
+    topPanel.appendChild(topRight);
+
+    const bottomPanel = document.createElement("div");
+    bottomPanel.classList.add("bottom-panel");
+
+    const leftPanel = document.createElement("div");
+    leftPanel.classList.add("left-panel");
 
     const descriptionLabel = document.createElement("label");
     descriptionLabel.textContent = "Description";
@@ -231,8 +265,6 @@ const uiControlller = (() => {
     descriptionInput.id = "descriptionInput";
     descriptionInput.name = "description";
 
-    leftPanel.appendChild(titleLabel);
-    leftPanel.appendChild(titleInput);
     leftPanel.appendChild(descriptionLabel);
     leftPanel.appendChild(descriptionInput);
 
@@ -293,15 +325,23 @@ const uiControlller = (() => {
       console.log("Action EDIT");
     }
 
+    const actionPanel = document.createElement("div");
+    actionPanel.classList.add("action-panel");
+
+    actionPanel.appendChild(cancelBtn);
+    actionPanel.appendChild(actionBtn);
+
     rightPanel.appendChild(dueDateLabel);
     rightPanel.appendChild(dateInput);
     rightPanel.appendChild(priorityLabel);
     rightPanel.appendChild(prioritySelect);
-    rightPanel.appendChild(cancelBtn);
-    rightPanel.appendChild(actionBtn);
+    rightPanel.appendChild(actionPanel);
 
-    taskForm.appendChild(leftPanel);
-    taskForm.appendChild(rightPanel);
+    bottomPanel.appendChild(leftPanel);
+    bottomPanel.appendChild(rightPanel);
+
+    taskForm.appendChild(topPanel);
+    taskForm.appendChild(bottomPanel);
 
     tasksAddPopup.appendChild(taskForm);
   };
