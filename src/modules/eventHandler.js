@@ -2,6 +2,7 @@ import todoManager from "./todoManager";
 import pubsub from "./pubsubManager";
 
 const eventHandler = (() => {
+  let cachedTaskCard = undefined;
   const dialogModal = document.querySelector(".dialog-modal");
 
   const handleProjectSelection = (event) => {
@@ -143,19 +144,21 @@ const eventHandler = (() => {
   };
 
   const handleEditTask = (event) => {
+    const currentlyDisplayedForm = document.getElementById("taskFormEdit");
+
+    if (currentlyDisplayedForm) {
+      const taskCardParent = currentlyDisplayedForm.parentElement;
+      taskCardParent.replaceChild(cachedTaskCard, currentlyDisplayedForm);
+    }
+
     const taskCard = event.target.closest(".task-card");
     const taskId = taskCard.getAttribute("data-task-id");
     const project = todoManager.getCurrentProject();
 
+    cachedTaskCard = taskCard;
+
     const task = project.tasks.find((t) => t.id === Number(taskId));
     pubsub.publish("CreateTaskForm", { action: "edit", task });
-
-    const taskForm = document.querySelector(".task-form");
-    taskForm.classList.remove("disabled");
-
-    taskCard.classList.add("disabled");
-
-    console.log(event.target.closest(".task-card"));
   };
 
   const handleEditTaskSubmit = (event) => {
@@ -179,9 +182,6 @@ const eventHandler = (() => {
       editedDate,
     );
 
-    taskForm.classList.add("disabled");
-
-    taskCard.classList.remove("disabled");
     pubsub.publish("UpdateTasks");
   };
 

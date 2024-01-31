@@ -71,19 +71,9 @@ const uiControlller = (() => {
     taskTitle.textContent = task.title;
     taskTitle.classList.add("task-title");
 
-    // const taskDescription = document.createElement("p");
-    // taskDescription.textContent = task.description;
-    // taskDescription.classList.add("task-description");
-
-    // const taskPriority = document.createElement("select");
-    // taskPriority.className = "task-priority";
-
     const taskDate = document.createElement("p");
     taskDate.textContent = task.date;
     taskDate.classList.add("task-date");
-
-    // const taskId = document.createElement("p");
-    // taskId.textContent = `Task Id: ${task.id}`;
 
     const editTaskBtn = document.createElement("button");
     editTaskBtn.textContent = "E";
@@ -93,29 +83,10 @@ const uiControlller = (() => {
     deleteBtn.textContent = "D";
     deleteBtn.classList.add("delete-btn");
 
-    // const priorityOptions = ["high", "medium", "low"];
-
-    // priorityOptions.forEach((optionValue) => {
-    //   const option = document.createElement("option");
-    //   option.value = optionValue;
-    //   option.textContent =
-    //     optionValue.charAt(0).toUpperCase() + optionValue.slice(1);
-
-    //   if (optionValue === task.priority) {
-    //     option.selected = true;
-    //   }
-
-    //   taskPriority.appendChild(option);
-    // });
-
     if (task.completed === true) {
       taskCard.classList.add("task-done");
       taskCheck.classList.add("task-checked");
     }
-
-    // taskPriority.addEventListener("change", (event) => {
-    //   pubsub.publish("ChangePriority", event);
-    // });
 
     taskCheck.addEventListener("click", (event) => {
       pubsub.publish("CompletekTask", event);
@@ -210,9 +181,7 @@ const uiControlller = (() => {
     const tasksAddPopup = document.querySelector(".tasks-add-popup");
 
     const taskForm = document.createElement("form");
-    taskForm.id = "taskForm";
     taskForm.classList.add("task-form");
-    taskForm.classList.add("disabled");
 
     const topPanel = document.createElement("div");
     topPanel.classList.add("top-panel");
@@ -226,7 +195,6 @@ const uiControlller = (() => {
     titleInput.name = "title";
 
     const taskDate = document.createElement("p");
-    taskDate.textContent = task.date;
     taskDate.classList.add("task-date");
 
     const editTaskBtn = document.createElement("button");
@@ -243,14 +211,12 @@ const uiControlller = (() => {
     const topRight = document.createElement("div");
     topRight.classList.add("card-right");
 
-    topLeft.appendChild(taskCheck);
     topLeft.appendChild(titleInput);
     topRight.appendChild(taskDate);
     topRight.appendChild(editTaskBtn);
     topRight.appendChild(deleteBtn);
 
     topPanel.appendChild(topLeft);
-    topPanel.appendChild(topRight);
 
     const bottomPanel = document.createElement("div");
     bottomPanel.classList.add("bottom-panel");
@@ -311,7 +277,11 @@ const uiControlller = (() => {
     if (action === "edit") {
       taskForm.setAttribute("data-task-id", task.id);
 
+      topLeft.insertBefore(taskCheck, topLeft.firstChild);
+      topPanel.appendChild(topRight);
+
       titleInput.value = task.title;
+      taskDate.textContent = task.date;
       descriptionInput.value = task.description;
       prioritySelect.value = task.priority;
       dateInput.value = task.date;
@@ -343,7 +313,17 @@ const uiControlller = (() => {
     taskForm.appendChild(topPanel);
     taskForm.appendChild(bottomPanel);
 
-    tasksAddPopup.appendChild(taskForm);
+    if (action === "add") {
+      taskForm.id = "taskFormAdd";
+      tasksAddPopup.appendChild(taskForm);
+    }
+
+    if (action === "edit") {
+      taskForm.id = "taskFormEdit";
+      const taskCard = document.querySelector(`[data-task-id= "${task.id}"]`);
+
+      taskCard.parentElement.replaceChild(taskForm, taskCard);
+    }
   };
 
   const renderTaskBins = () => {
