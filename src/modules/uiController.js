@@ -135,19 +135,91 @@ const uiControlller = (() => {
     addTaskContainer.appendChild(addTaskBtn);
   };
 
+  const createRadioButton = (id, name, value, path) => {
+    const label = document.createElement("label");
+    label.classList.add("radio-label");
+
+    const radioInput = document.createElement("input");
+    radioInput.type = "radio";
+    radioInput.id = id;
+    radioInput.name = name;
+    radioInput.value = value;
+    radioInput.style.display = "none";
+
+    const icon = document.createElement("p");
+    // icon.src = iconSrc;
+    // icon.alt = "icon";
+    icon.textContent = path;
+
+    label.appendChild(radioInput);
+    label.appendChild(icon);
+
+    return label;
+  };
+
   const createProjectForm = (action, project) => {
     dialogModal.innerHTML = "";
 
     const projectForm = document.createElement("form");
     projectForm.id = "projectForm";
 
-    const projectLabel = document.createElement("label");
-    projectLabel.textContent = "Project Name";
+    const projectIcons = document.createElement("div");
+    projectIcons.classList.add("project-icons");
+
+    const projectNameLabel = document.createElement("p");
+    projectNameLabel.textContent = "Project Name";
 
     const projectNameInput = document.createElement("input");
     projectNameInput.type = "text";
     projectNameInput.id = "projectNameInput";
     projectNameInput.name = "Project Name";
+
+    const projectIconLabel = document.createElement("p");
+    projectIconLabel.textContent = "Project Icon";
+
+    const defaultLabel = createRadioButton(
+      "project-default",
+      "project-icon",
+      "default",
+      "D",
+    );
+    const personalLabel = createRadioButton(
+      "project-personal",
+      "project-icon",
+      "personal",
+      "P",
+    );
+    const workLabel = createRadioButton(
+      "project-work",
+      "project-icon",
+      "work",
+      "W",
+    );
+    const studyLabel = createRadioButton(
+      "project-study",
+      "project-icon",
+      "study",
+      "S",
+    );
+    const homeLabel = createRadioButton(
+      "project-home",
+      "project-icon",
+      "home",
+      "H",
+    );
+    const socialLabel = createRadioButton(
+      "project-social",
+      "project-icon",
+      "social",
+      "S",
+    );
+
+    projectIcons.appendChild(defaultLabel);
+    projectIcons.appendChild(personalLabel);
+    projectIcons.appendChild(workLabel);
+    projectIcons.appendChild(studyLabel);
+    projectIcons.appendChild(homeLabel);
+    projectIcons.appendChild(socialLabel);
 
     const actionBtn = document.createElement("button");
 
@@ -170,8 +242,10 @@ const uiControlller = (() => {
       });
     }
 
-    projectForm.appendChild(projectLabel);
+    projectForm.appendChild(projectNameLabel);
     projectForm.appendChild(projectNameInput);
+    projectForm.appendChild(projectIconLabel);
+    projectForm.appendChild(projectIcons);
     projectForm.appendChild(actionBtn);
 
     dialogModal.appendChild(projectForm);

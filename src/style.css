@@ -199,3 +199,23 @@ html {
   padding: 20px;
   border-radius: 10px;
 }
+
+.radio-label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radio-label input {
+  display: none;
+}
+
+.radio-label img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.radio-label input:checked + p {
+  border: 2px solid blue;
+}
