@@ -105,8 +105,11 @@ const eventHandler = (() => {
 
     const projectForm = document.querySelector("#projectForm");
     const projectName = document.querySelector("#projectNameInput").value;
+    const projectCategory = document.querySelector(
+      'input[type="radio"][name="project-icon"]:checked',
+    ).value;
 
-    todoManager.createProject(projectName);
+    todoManager.createProject(projectName, projectCategory);
     pubsub.publish("UpdateProjects");
 
     projectForm.reset();

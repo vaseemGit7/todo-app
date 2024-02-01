@@ -28,9 +28,9 @@ const todoManager = (() => {
     return newTask;
   };
 
-  const createProject = (name) => {
+  const createProject = (name, category) => {
     const projectIdCounter = generateUniqueId();
-    const newProject = new Project(projectIdCounter, name);
+    const newProject = new Project(projectIdCounter, name, category);
     projects.push(newProject);
     saveData();
     return newProject;
