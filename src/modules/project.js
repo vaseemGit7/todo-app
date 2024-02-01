@@ -6,8 +6,9 @@ export default class Project {
     this.tasks = [];
   }
 
-  editProject(name) {
+  editProject(name, category) {
     this.name = name;
+    this.category = category;
   }
 
   addTask(task) {

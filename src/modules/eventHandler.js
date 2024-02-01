@@ -53,9 +53,12 @@ const eventHandler = (() => {
     const projectId = projectForm.getAttribute("data-project-id");
 
     const projectName = document.querySelector("#projectNameInput").value;
+    const projectCategory = document.querySelector(
+      'input[type="radio"][name="project-icon"]:checked',
+    ).value;
 
-    todoManager.updateProject(projectId, projectName);
-
+    todoManager.updateProject(projectId, projectName, projectCategory);
+    console.log("this is the updated category", projectCategory);
     dialogModal.close();
     pubsub.publish("UpdateProjects");
   };
@@ -111,7 +114,7 @@ const eventHandler = (() => {
 
     todoManager.createProject(projectName, projectCategory);
     pubsub.publish("UpdateProjects");
-
+    console.log("This is the category", projectCategory);
     projectForm.reset();
     dialogModal.close();
   };

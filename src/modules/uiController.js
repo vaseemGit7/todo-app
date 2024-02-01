@@ -235,6 +235,15 @@ const uiControlller = (() => {
       projectForm.setAttribute("data-project-id", project.id);
       projectNameInput.value = project.name;
 
+      const radioButtons = projectIcons.querySelectorAll(
+        'input[type="radio"][name="project-icon"]',
+      );
+      radioButtons.forEach((radioButton) => {
+        if (radioButton.value === project.category) {
+          radioButton.checked = true;
+        }
+      });
+
       actionBtn.textContent = "Edit project";
 
       actionBtn.addEventListener("click", (event) => {

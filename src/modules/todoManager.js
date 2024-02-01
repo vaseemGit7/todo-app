@@ -103,9 +103,9 @@ const todoManager = (() => {
     saveData();
   };
 
-  const updateProject = (projectId, name) => {
+  const updateProject = (projectId, name, category) => {
     const selectedProject = projects.find((p) => p.id === Number(projectId));
-    selectedProject.editProject(name);
+    selectedProject.editProject(name, category);
   };
 
   const deleteProject = (projectId) => {
