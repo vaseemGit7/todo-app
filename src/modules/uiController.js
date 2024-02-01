@@ -221,7 +221,14 @@ const uiControlller = (() => {
     projectIcons.appendChild(homeLabel);
     projectIcons.appendChild(socialLabel);
 
+    const cancelBtn = document.createElement("button");
+    cancelBtn.textContent = "Cancel";
     const actionBtn = document.createElement("button");
+
+    cancelBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      dialogModal.close();
+    });
 
     if (action === "add") {
       actionBtn.textContent = "Add Project";
@@ -255,6 +262,7 @@ const uiControlller = (() => {
     projectForm.appendChild(projectNameInput);
     projectForm.appendChild(projectIconLabel);
     projectForm.appendChild(projectIcons);
+    projectForm.appendChild(cancelBtn);
     projectForm.appendChild(actionBtn);
 
     dialogModal.appendChild(projectForm);
