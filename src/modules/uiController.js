@@ -353,6 +353,8 @@ const uiControlller = (() => {
     cancelBtn.id = "cancelBtn";
     cancelBtn.textContent = "Cancel";
 
+    cancelBtn.addEventListener("click", () => renderTasks());
+
     const actionBtn = document.createElement("button");
 
     if (action === "add") {
