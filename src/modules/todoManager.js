@@ -174,7 +174,11 @@ const todoManager = (() => {
     const loadedData = storageManager.loadFromLocalStorage();
     if (loadedData) {
       projects = loadedData.projects.map((projectData) => {
-        const project = new Project(projectData.id, projectData.name);
+        const project = new Project(
+          projectData.id,
+          projectData.name,
+          projectData.category,
+        );
         projectData.tasks.forEach((taskData) => {
           const task = new Task(
             taskData.id,

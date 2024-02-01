@@ -5,8 +5,18 @@ const eventHandler = (() => {
   let cachedTaskCard = undefined;
   const dialogModal = document.querySelector(".dialog-modal");
 
+  const categories = {
+    default: "#ef4444",
+    personal: "#ea580c",
+    work: "#65a30d",
+    study: "#059669",
+    home: "#2563eb",
+    social: "#9333ea",
+  };
+
   const handleProjectSelection = (event) => {
     const currentProjectName = document.querySelector("#currentProjectName");
+    const displayBanner = document.querySelector(".display-banner");
 
     const projectCard = event.target.closest(".project-card");
     const isProjectCollection =
@@ -30,6 +40,8 @@ const eventHandler = (() => {
     const currentProject = todoManager.getCurrentProject();
     currentProjectName.textContent = currentProject.name;
 
+    displayBanner.style.backgroundColor = categories[currentProject.category];
+    console.log("This is the category", currentProject.category);
     pubsub.publish("UpdateTasks");
   };
 
