@@ -36,8 +36,8 @@ const todoManager = (() => {
     return newProject;
   };
 
-  const createTaskBin = (name) => {
-    const newTaskBin = new Project(taskBinCounter, name);
+  const createTaskBin = (name, category) => {
+    const newTaskBin = new Project(taskBinCounter, name, category);
     taskBins.push(newTaskBin);
     taskBinCounter += 1;
     return newTaskBin;
@@ -60,9 +60,9 @@ const todoManager = (() => {
     project.setTask(sortTasksByDate(sortedByPriority));
   };
 
-  const inbox = createTaskBin("Inbox");
-  const today = createTaskBin("Today");
-  const thisWeek = createTaskBin("This Week");
+  const inbox = createTaskBin("Inbox", "inbox");
+  const today = createTaskBin("Today", "today");
+  const thisWeek = createTaskBin("This Week", "week");
 
   const updateInbox = () => {
     inbox.tasks = [];
