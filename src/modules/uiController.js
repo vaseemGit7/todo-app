@@ -6,6 +6,18 @@ const uiControlller = (() => {
   const revealCompletedBtn = document.getElementById("showDoneTasksBtn");
   const dialogModal = document.querySelector(".dialog-modal");
 
+  const icons = {
+    default: "circle",
+    personal: "person",
+    work: "work",
+    study: "book_2",
+    home: "home",
+    social: "group",
+    inbox: "inbox",
+    today: "today",
+    week: "date_range",
+  };
+
   const displayProject = (project, collection) => {
     const menus = document.querySelector(".menus-section");
     const workspaces = document.querySelector(".workspaces");
@@ -20,7 +32,15 @@ const uiControlller = (() => {
     projectNav.addEventListener("click", (event) => {
       pubsub.publish("SelectProject", event);
     });
-    projectCard.appendChild(projectNav);
+
+    const projectIcon = document.createElement("div");
+    projectIcon.classList.add("project-icon");
+
+    const iconSpan = document.createElement("span");
+    iconSpan.classList.add("material-symbols-outlined");
+
+    const projectCategory = icons[project.category];
+    iconSpan.textContent = projectCategory;
 
     if (collection === "projects") {
       const editProjectBtn = document.createElement("div");
@@ -37,6 +57,9 @@ const uiControlller = (() => {
         pubsub.publish("DeleteProject", event);
       });
 
+      projectIcon.appendChild(iconSpan);
+      projectCard.appendChild(projectIcon);
+      projectCard.appendChild(projectNav);
       projectCard.setAttribute("data-project-id", project.id);
       projectCard.appendChild(editProjectBtn);
       projectCard.appendChild(deleteProjectBtn);
@@ -44,6 +67,9 @@ const uiControlller = (() => {
     }
 
     if (collection === "taskBins") {
+      projectIcon.appendChild(iconSpan);
+      projectCard.appendChild(projectIcon);
+      projectCard.appendChild(projectNav);
       projectCard.setAttribute("data-menu-id", project.id);
       menus.appendChild(projectCard);
     }
