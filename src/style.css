@@ -28,17 +28,30 @@ html {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(3, max-content);
-  gap: 40px;
+  gap: 30px;
   padding: 30px 20px;
 }
 
 .app-logo {
+  display: flex;
+  justify-content: center;
   font-size: 2.6rem;
 }
 
 .workspace-header {
   display: flex;
   justify-content: space-between;
+}
+
+.create-project-btn,
+#showDoneTasksBtn {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #f3f4f6;
+  gap: 10px;
 }
 
 .menus-section,
@@ -48,11 +61,19 @@ html {
   gap: 10px;
 }
 
+.menus-section {
+  margin-bottom: 50px;
+}
+
+.workspaces {
+  margin-top: 30px;
+}
+
 .project-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #18181b;
+  /* background-color: #18181b; */
   border-radius: 10px;
   padding: 10px 5px;
   cursor: pointer;
@@ -129,6 +150,19 @@ html {
   background-color: #334155;
   margin-top: 10px;
   font-size: 1.8rem;
+}
+
+.addTask-btn {
+  display: flex;
+  justify-content: start;
+  background-color: #334155;
+  width: 100%;
+  border: none;
+  color: #f3f4f6;
+  padding: 20px 20px;
+  margin-top: 10px;
+  gap: 15px;
+  cursor: pointer;
 }
 
 .bottom-panel {

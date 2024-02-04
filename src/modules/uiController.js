@@ -25,6 +25,12 @@ const uiControlller = (() => {
     const projectCard = document.createElement("div");
     projectCard.classList.add("project-card");
 
+    const cardLeft = document.createElement("div");
+    cardLeft.classList.add("card-left");
+
+    const cardRight = document.createElement("div");
+    cardRight.classList.add("card-right");
+
     const projectNav = document.createElement("div");
     projectNav.textContent = project.name;
     projectNav.classList.add("project-nav");
@@ -58,21 +64,27 @@ const uiControlller = (() => {
       deleteProjectBtn.addEventListener("click", (event) => {
         pubsub.publish("DeleteProject", event);
       });
+      projectCard.setAttribute("data-project-id", project.id);
 
       projectCardIcon.appendChild(iconSpan);
-      projectCard.appendChild(projectCardIcon);
-      projectCard.appendChild(projectNav);
-      projectCard.setAttribute("data-project-id", project.id);
-      projectCard.appendChild(editProjectBtn);
-      projectCard.appendChild(deleteProjectBtn);
+      cardLeft.appendChild(projectCardIcon);
+      cardLeft.appendChild(projectNav);
+
+      cardRight.appendChild(editProjectBtn);
+      cardRight.appendChild(deleteProjectBtn);
+
+      projectCard.appendChild(cardLeft);
+      projectCard.appendChild(cardRight);
+
       workspaces.appendChild(projectCard);
     }
 
     if (collection === "taskBins") {
-      projectCardIcon.appendChild(iconSpan);
-      projectCard.appendChild(projectCardIcon);
-      projectCard.appendChild(projectNav);
       projectCard.setAttribute("data-menu-id", project.id);
+      projectCardIcon.appendChild(iconSpan);
+      cardLeft.appendChild(projectCardIcon);
+      cardLeft.appendChild(projectNav);
+      projectCard.appendChild(cardLeft);
       menus.appendChild(projectCard);
     }
   };
@@ -151,6 +163,11 @@ const uiControlller = (() => {
   const createAddTaskBtn = () => {
     const addTaskContainer = document.querySelector(".tasks-add-popup");
     addTaskContainer.innerHTML = "";
+    addTaskContainer.classList.add("active");
+
+    const addIcon = document.createElement("span");
+    addIcon.classList.add("material-symbols-outlined");
+    addIcon.textContent = "add";
 
     const addTaskBtn = document.createElement("button");
     addTaskBtn.textContent = "Add Task";
@@ -160,6 +177,7 @@ const uiControlller = (() => {
       pubsub.publish("TaskForm", event);
     });
 
+    addTaskBtn.appendChild(addIcon);
     addTaskContainer.appendChild(addTaskBtn);
   };
 
@@ -290,7 +308,7 @@ const uiControlller = (() => {
         }
       });
 
-      actionBtn.textContent = "Edit project";
+      actionBtn.textContent = "Edit";
 
       actionBtn.addEventListener("click", (event) => {
         pubsub.publish("EditProject", event);
@@ -331,13 +349,13 @@ const uiControlller = (() => {
     const taskDate = document.createElement("p");
     taskDate.classList.add("task-date");
 
-    const editTaskBtn = document.createElement("button");
-    editTaskBtn.textContent = "E";
-    editTaskBtn.classList.add("editTask-btn");
+    const editTaskBtn = document.createElement("span");
+    editTaskBtn.classList.add("material-symbols-outlined");
+    editTaskBtn.textContent = "edit_square";
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "D";
-    deleteBtn.classList.add("delete-btn");
+    const deleteBtn = document.createElement("span");
+    deleteBtn.classList.add("material-symbols-outlined");
+    deleteBtn.textContent = "delete";
 
     const topLeft = document.createElement("div");
     topLeft.classList.add("card-left");
@@ -395,10 +413,12 @@ const uiControlller = (() => {
     const cancelBtn = document.createElement("button");
     cancelBtn.id = "cancelBtn";
     cancelBtn.textContent = "Cancel";
+    cancelBtn.classList.add("cancel-btn");
 
     cancelBtn.addEventListener("click", () => renderTasks());
 
     const actionBtn = document.createElement("button");
+    actionBtn.classList.add("action-btn");
 
     if (action === "add") {
       actionBtn.id = "addBtn";
