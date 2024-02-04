@@ -3,15 +3,11 @@ import pubsub from "./pubsubManager";
 
 const eventHandler = (() => {
   let cachedTaskCard = undefined;
+  let category = undefined;
   const dialogModal = document.querySelector(".dialog-modal");
 
-  const categories = {
-    default: "#ef4444",
-    personal: "#ea580c",
-    work: "#65a30d",
-    study: "#059669",
-    home: "#2563eb",
-    social: "#9333ea",
+  const importIcon = (banner) => {
+    return import(`../gifs/banner-${banner}.gif`);
   };
 
   const handleProjectSelection = (event) => {
@@ -40,7 +36,21 @@ const eventHandler = (() => {
     const currentProject = todoManager.getCurrentProject();
     currentProjectName.textContent = currentProject.name;
 
-    displayBanner.style.backgroundColor = categories[currentProject.category];
+    if (
+      currentProject.category === "inbox" ||
+      currentProject.category === "today" ||
+      currentProject.category === "week"
+    ) {
+      category = "default";
+    } else {
+      category = currentProject.category;
+    }
+
+    importIcon(category).then((bannerSrc) => {
+      const banner = bannerSrc.default;
+      displayBanner.style.backgroundImage = `url(${banner})`;
+    });
+
     console.log("This is the category", currentProject.category);
     pubsub.publish("UpdateTasks");
   };
@@ -233,9 +243,15 @@ const eventHandler = (() => {
 
   window.onload = () => {
     const currentProjectName = document.querySelector("#currentProjectName");
+    const displayBanner = document.querySelector(".display-banner");
 
     const currentProject = todoManager.getCurrentProject();
     currentProjectName.textContent = currentProject.name;
+
+    importIcon("default").then((bannerSrc) => {
+      const banner = bannerSrc.default;
+      displayBanner.style.backgroundImage = `url(${banner})`;
+    });
 
     pubsub.publish("UpdateTasks");
   };
