@@ -43,11 +43,13 @@ const uiControlller = (() => {
     iconSpan.textContent = projectCategory;
 
     if (collection === "projects") {
-      const editProjectBtn = document.createElement("div");
-      editProjectBtn.textContent = "Edit";
+      const editProjectBtn = document.createElement("span");
+      editProjectBtn.classList.add("material-symbols-outlined");
+      editProjectBtn.textContent = "edit_square";
 
-      const deleteProjectBtn = document.createElement("div");
-      deleteProjectBtn.textContent = "Delete";
+      const deleteProjectBtn = document.createElement("span");
+      deleteProjectBtn.classList.add("material-symbols-outlined");
+      deleteProjectBtn.textContent = "delete";
 
       editProjectBtn.addEventListener("click", (event) => {
         pubsub.publish("TriggerEditProject", event);
@@ -101,13 +103,13 @@ const uiControlller = (() => {
     taskDate.textContent = task.date;
     taskDate.classList.add("task-date");
 
-    const editTaskBtn = document.createElement("button");
-    editTaskBtn.textContent = "E";
-    editTaskBtn.classList.add("editTask-btn");
+    const editTaskBtn = document.createElement("span");
+    editTaskBtn.classList.add("material-symbols-outlined");
+    editTaskBtn.textContent = "edit_square";
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "D";
-    deleteBtn.classList.add("delete-btn");
+    const deleteBtn = document.createElement("span");
+    deleteBtn.classList.add("material-symbols-outlined");
+    deleteBtn.textContent = "delete";
 
     if (task.completed === true) {
       taskCard.classList.add("task-done");
