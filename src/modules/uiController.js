@@ -33,8 +33,8 @@ const uiControlller = (() => {
       pubsub.publish("SelectProject", event);
     });
 
-    const projectIcon = document.createElement("div");
-    projectIcon.classList.add("project-icon");
+    const projectCardIcon = document.createElement("div");
+    projectCardIcon.classList.add("project-card-icon");
 
     const iconSpan = document.createElement("span");
     iconSpan.classList.add("material-symbols-outlined");
@@ -57,8 +57,8 @@ const uiControlller = (() => {
         pubsub.publish("DeleteProject", event);
       });
 
-      projectIcon.appendChild(iconSpan);
-      projectCard.appendChild(projectIcon);
+      projectCardIcon.appendChild(iconSpan);
+      projectCard.appendChild(projectCardIcon);
       projectCard.appendChild(projectNav);
       projectCard.setAttribute("data-project-id", project.id);
       projectCard.appendChild(editProjectBtn);
@@ -67,8 +67,8 @@ const uiControlller = (() => {
     }
 
     if (collection === "taskBins") {
-      projectIcon.appendChild(iconSpan);
-      projectCard.appendChild(projectIcon);
+      projectCardIcon.appendChild(iconSpan);
+      projectCard.appendChild(projectCardIcon);
       projectCard.appendChild(projectNav);
       projectCard.setAttribute("data-menu-id", project.id);
       menus.appendChild(projectCard);
@@ -172,9 +172,8 @@ const uiControlller = (() => {
     radioInput.value = value;
     radioInput.style.display = "none";
 
-    const icon = document.createElement("p");
-    // icon.src = iconSrc;
-    // icon.alt = "icon";
+    const icon = document.createElement("span");
+    icon.classList.add("material-symbols-outlined");
     icon.textContent = path;
 
     label.appendChild(radioInput);
@@ -186,11 +185,17 @@ const uiControlller = (() => {
   const createProjectForm = (action, project) => {
     dialogModal.innerHTML = "";
 
+    const formHeader = document.createElement("div");
+    formHeader.classList.add("form-header");
+
+    const formBody = document.createElement("div");
+    formBody.classList.add("form-body");
+
+    const formTitle = document.createElement("p");
+    formTitle.textContent = "NEW PROJECT";
+
     const projectForm = document.createElement("form");
     projectForm.id = "projectForm";
-
-    const projectIcons = document.createElement("div");
-    projectIcons.classList.add("project-icons");
 
     const projectNameLabel = document.createElement("p");
     projectNameLabel.textContent = "Project Name";
@@ -203,41 +208,44 @@ const uiControlller = (() => {
     const projectIconLabel = document.createElement("p");
     projectIconLabel.textContent = "Project Icon";
 
+    const projectIcons = document.createElement("div");
+    projectIcons.classList.add("project-icons");
+
     const defaultLabel = createRadioButton(
       "project-default",
       "project-icon",
       "default",
-      "D",
+      "circle",
     );
     const personalLabel = createRadioButton(
       "project-personal",
       "project-icon",
       "personal",
-      "P",
+      "person",
     );
     const workLabel = createRadioButton(
       "project-work",
       "project-icon",
       "work",
-      "W",
+      "work",
     );
     const studyLabel = createRadioButton(
       "project-study",
       "project-icon",
       "study",
-      "S",
+      "book_2",
     );
     const homeLabel = createRadioButton(
       "project-home",
       "project-icon",
       "home",
-      "H",
+      "home",
     );
     const socialLabel = createRadioButton(
       "project-social",
       "project-icon",
       "social",
-      "S",
+      "group",
     );
 
     projectIcons.appendChild(defaultLabel);
@@ -249,7 +257,10 @@ const uiControlller = (() => {
 
     const cancelBtn = document.createElement("button");
     cancelBtn.textContent = "Cancel";
+    cancelBtn.classList.add("cancel-btn");
+
     const actionBtn = document.createElement("button");
+    actionBtn.classList.add("action-btn");
 
     cancelBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -257,7 +268,7 @@ const uiControlller = (() => {
     });
 
     if (action === "add") {
-      actionBtn.textContent = "Add Project";
+      actionBtn.textContent = "Add";
 
       actionBtn.addEventListener("click", (event) => {
         pubsub.publish("AddProject", event);
@@ -284,13 +295,17 @@ const uiControlller = (() => {
       });
     }
 
-    projectForm.appendChild(projectNameLabel);
-    projectForm.appendChild(projectNameInput);
-    projectForm.appendChild(projectIconLabel);
-    projectForm.appendChild(projectIcons);
-    projectForm.appendChild(cancelBtn);
-    projectForm.appendChild(actionBtn);
+    formHeader.appendChild(cancelBtn);
+    formHeader.appendChild(formTitle);
+    formHeader.appendChild(actionBtn);
 
+    formBody.appendChild(projectNameLabel);
+    formBody.appendChild(projectNameInput);
+    formBody.appendChild(projectIconLabel);
+    formBody.appendChild(projectIcons);
+
+    projectForm.appendChild(formHeader);
+    projectForm.appendChild(formBody);
     dialogModal.appendChild(projectForm);
   };
 
