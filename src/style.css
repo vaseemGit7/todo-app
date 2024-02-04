@@ -1,3 +1,6 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;600;700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -7,6 +10,11 @@
 html {
   font-size: 62.5%;
   line-height: 1.6;
+}
+
+body {
+  /* font-family: "Roboto Mono", monospace; */
+  font-family: "Poppins", sans-serif;
 }
 
 .disabled {
@@ -35,12 +43,14 @@ html {
 .app-logo {
   display: flex;
   justify-content: center;
-  font-size: 2.6rem;
+  font-size: 3rem;
+  font-weight: 700;
 }
 
 .workspace-header {
   display: flex;
   justify-content: space-between;
+  font-size: 2rem;
 }
 
 .create-project-btn,
@@ -94,6 +104,7 @@ html {
     "wght" 400,
     "GRAD" 0,
     "opsz" 24;
+  font-size: 2.2rem;
 }
 
 .content {
@@ -123,7 +134,8 @@ html {
   bottom: -30px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 2rem;
+  font-size: 2.6rem;
+  font-weight: 700;
   color: #f5f5f5;
 }
 
@@ -260,6 +272,8 @@ html {
 
 .form-header > p {
   color: #d1d5db;
+  font-size: 1.9rem;
+  font-weight: 700;
 }
 
 .cancel-btn,
@@ -276,8 +290,23 @@ html {
   color: #f3f4f6;
 }
 
+.action-btn,
+.addTask-btn,
+.cancel-btn,
+#showDoneTasksBtn {
+  font-family: inherit;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
 .form-body {
   padding: 15px 10px;
+}
+
+.form-body > p {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 5px;
 }
 
 #projectNameInput {
@@ -314,4 +343,9 @@ html {
 
 .radio-label input:checked + span {
   border: 2px solid #27272a;
+}
+
+input,
+select {
+  font-family: inherit;
 }
