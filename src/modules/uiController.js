@@ -132,6 +132,14 @@ const uiControlller = (() => {
     const taskCheck = document.createElement("div");
     taskCheck.classList.add("task-check");
 
+    if (task.priority === "high") {
+      taskCheck.style.borderColor = "black";
+    } else if (task.priority === "medium") {
+      taskCheck.style.borderColor = "brown";
+    } else if (task.priority === "low") {
+      taskCheck.style.borderColor = "blue";
+    }
+
     const taskTitle = document.createElement("p");
     taskTitle.textContent = task.title;
     taskTitle.classList.add("task-title");
