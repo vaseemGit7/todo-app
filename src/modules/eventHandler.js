@@ -51,6 +51,26 @@ const eventHandler = (() => {
       displayBanner.style.backgroundImage = `url(${banner})`;
     });
 
+    if (currentProject) {
+      const projectCards = document.querySelectorAll(".project-card");
+
+      projectCards.forEach((projectCard) => {
+        const icon = projectCard.querySelector(
+          ".project-card-icon .material-symbols-outlined",
+        );
+        icon.classList.remove("material-symbols-outlined-active");
+
+        projectCard.classList.remove("project-card-active");
+      });
+
+      const icon = projectCard.querySelector(
+        ".project-card-icon .material-symbols-outlined",
+      );
+      icon.classList.add("material-symbols-outlined-active");
+
+      projectCard.classList.add("project-card-active");
+    }
+
     console.log("This is the category", currentProject.category);
     pubsub.publish("UpdateTasks");
   };
