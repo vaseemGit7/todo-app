@@ -18,6 +18,31 @@ const uiControlller = (() => {
     week: "date_range",
   };
 
+  const updateCounter = () => {
+    const contentFooter = document.querySelector(".content-footer");
+    const doneCount = contentFooter.querySelector(".done-count");
+
+    const tasks = todoManager.getCurrentProject().tasks;
+    console.log("These are tasks from current project", tasks);
+
+    let counter = 0;
+
+    tasks.forEach((task) => {
+      if (task.completed === true) {
+        counter++;
+      } else if (counter > 0) {
+        counter--;
+      }
+    });
+
+    if (counter > 0) {
+      contentFooter.classList.remove("disabled");
+      doneCount.textContent = `(${counter})`;
+    } else {
+      contentFooter.classList.add("disabled");
+    }
+  };
+
   const displayProject = (project, collection) => {
     const menus = document.querySelector(".menus-section");
     const workspaces = document.querySelector(".workspaces");
@@ -515,6 +540,8 @@ const uiControlller = (() => {
     for (let i = 0; i < tasks.length; i++) {
       displayTask(tasks[i]);
     }
+
+    updateCounter();
   };
 
   createProjectBtn.addEventListener("click", (e) => {

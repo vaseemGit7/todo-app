@@ -251,15 +251,21 @@ body {
 }
 
 .content-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: sticky;
   bottom: 0;
   font-size: 1.8rem;
   background-color: #334155;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 10px;
+}
+
+.done-count {
+  font-size: 1.8rem;
+  color: #f3f4f6;
+  padding: 5px;
 }
 
 .dialog-modal {
