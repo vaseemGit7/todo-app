@@ -24,14 +24,12 @@ const eventHandler = (() => {
     if (isProjectCollection) {
       const projectId = projectCard.getAttribute("data-project-id");
       todoManager.setCurrentProject(projectId, "project");
-      console.log(`Current Project: ${projectId}`);
       pubsub.publish("CreateAddTaskBtn");
     }
 
     if (isMenuCollection) {
       const menuId = projectCard.getAttribute("data-menu-id");
       todoManager.setCurrentProject(menuId, "menu");
-      console.log(`Current Menu: ${menuId}`);
       if (addTaskBtn) {
         addTaskBtn.remove();
       }
@@ -74,8 +72,6 @@ const eventHandler = (() => {
 
       projectCard.classList.add("project-card-active");
     }
-
-    console.log("This is the category", currentProject.category);
     pubsub.publish("UpdateTasks");
   };
 
@@ -104,7 +100,6 @@ const eventHandler = (() => {
     ).value;
 
     todoManager.updateProject(projectId, projectName, projectCategory);
-    console.log("this is the updated category", projectCategory);
     dialogModal.close();
     pubsub.publish("UpdateProjects");
   };
@@ -145,8 +140,6 @@ const eventHandler = (() => {
 
     const addTaskBtn = document.querySelector(".addTask-btn");
     addTaskBtn.classList.add("disabled");
-
-    console.log("FORM CREATED");
   };
 
   const handleAddProject = (event) => {
@@ -160,7 +153,6 @@ const eventHandler = (() => {
 
     todoManager.createProject(projectName, projectCategory);
     pubsub.publish("UpdateProjects");
-    console.log("This is the category", projectCategory);
     projectForm.reset();
     dialogModal.close();
   };
@@ -191,8 +183,6 @@ const eventHandler = (() => {
     addTaskBtn.classList.remove("disabled");
 
     pubsub.publish("UpdateTasks");
-    console.log("It clicked");
-    console.log(currentProject.tasks);
   };
 
   const handleEditTask = (event) => {
@@ -246,7 +236,6 @@ const eventHandler = (() => {
     const project = projects.find((p) => p.id === Number(originId));
     todoManager.removeTaskFromProject(project, taskId);
 
-    console.log("deleted");
     pubsub.publish("UpdateTasks");
   };
 

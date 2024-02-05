@@ -23,7 +23,6 @@ const uiControlller = (() => {
     const doneCount = contentFooter.querySelector(".done-count");
 
     const tasks = todoManager.getCurrentProject().tasks;
-    console.log("These are tasks from current project", tasks);
 
     let counter = 0;
 
@@ -472,7 +471,6 @@ const uiControlller = (() => {
       actionBtn.addEventListener("click", (event) => {
         pubsub.publish("AddTask", event);
       });
-      console.log("Action ADD");
     }
 
     if (action === "edit") {
@@ -493,7 +491,6 @@ const uiControlller = (() => {
       actionBtn.addEventListener("click", (event) => {
         pubsub.publish("EditTask", event);
       });
-      console.log("Action EDIT");
     }
 
     const actionPanel = document.createElement("div");

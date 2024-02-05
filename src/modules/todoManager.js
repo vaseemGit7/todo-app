@@ -153,7 +153,6 @@ const todoManager = (() => {
       (task) => task.id === Number(taskId),
     );
     selectedTask.setCompleted();
-    console.log(selectedTask);
     updateAndSaveData();
   };
 
