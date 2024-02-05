@@ -51,6 +51,7 @@ body {
   display: flex;
   justify-content: space-between;
   font-size: 2rem;
+  margin: 0 10px;
 }
 
 .create-project-btn,
@@ -62,6 +63,8 @@ body {
   cursor: pointer;
   color: #f3f4f6;
   gap: 10px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .menus-section,
@@ -83,9 +86,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background-color: #18181b; */
   border-radius: 10px;
-  padding: 10px 5px;
+  padding: 10px 15px;
   cursor: pointer;
 }
 
@@ -99,6 +101,8 @@ body {
 }
 
 .material-symbols-outlined {
+  display: flex;
+  align-items: center;
   font-variation-settings:
     "FILL" 0,
     "wght" 400,
@@ -116,7 +120,6 @@ body {
 
 .display-board {
   position: relative;
-  /* border: 3px solid yellow; */
 }
 
 .display-banner {
@@ -137,13 +140,12 @@ body {
   font-size: 2.6rem;
   font-weight: 700;
   color: #f5f5f5;
+  border-radius: 5px;
 }
 
 .tasks-section {
   display: grid;
-  /* place-items: center; */
   grid-template-rows: repeat(3, max-content);
-  /* border: 2px solid red; */
   padding: 80px 250px;
 }
 
@@ -162,19 +164,7 @@ body {
   background-color: #334155;
   margin-top: 10px;
   font-size: 1.8rem;
-}
-
-.addTask-btn {
-  display: flex;
-  justify-content: start;
-  background-color: #334155;
-  width: 100%;
-  border: none;
-  color: #f3f4f6;
-  padding: 20px 20px;
-  margin-top: 10px;
-  gap: 15px;
-  cursor: pointer;
+  border-radius: 5px;
 }
 
 .bottom-panel {
@@ -211,23 +201,35 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 20px 20px;
+  border-radius: 5px;
 }
 
 .task-card {
   margin-top: 10px;
 }
 
+.card-left > input {
+  border: none;
+  background-color: inherit;
+  color: inherit;
+}
+
 .card-left,
 .card-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
+}
+
+.card-right > span {
+  color: transparent;
 }
 
 .task-check {
   height: 20px;
   width: 20px;
   background-color: #d9d9d9;
+  border-radius: 5px;
 }
 
 .task-checked {
@@ -248,7 +250,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
 }
 
 .dialog-modal {
@@ -294,9 +296,26 @@ body {
 .addTask-btn,
 .cancel-btn,
 #showDoneTasksBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: inherit;
   font-size: 1.8rem;
   font-weight: 700;
+  cursor: pointer;
+}
+
+.addTask-btn {
+  display: flex;
+  justify-content: start;
+  background-color: #334155;
+  width: 100%;
+  border: none;
+  color: #f3f4f6;
+  padding: 20px 20px;
+  margin-top: 10px;
+  gap: 15px;
+  border-radius: 5px;
 }
 
 .form-body {
@@ -348,4 +367,15 @@ body {
 input,
 select {
   font-family: inherit;
+}
+
+.project-card:hover,
+.create-project-btn:hover {
+  background-color: #18181b;
+}
+
+.project-card:hover .card-right > span,
+.task-card:hover .card-right > span {
+  color: inherit;
+  cursor: pointer;
 }
