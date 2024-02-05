@@ -60,9 +60,9 @@ const uiControlller = (() => {
     projectNav.textContent = project.name;
     projectNav.classList.add("project-nav");
 
-    projectNav.addEventListener("click", (event) => {
-      pubsub.publish("SelectProject", event);
-    });
+    // projectNav.addEventListener("click", (event) => {
+    //   pubsub.publish("SelectProject", event);
+    // });
 
     const projectCardIcon = document.createElement("div");
     projectCardIcon.classList.add("project-card-icon");
@@ -77,10 +77,12 @@ const uiControlller = (() => {
       const editProjectBtn = document.createElement("span");
       editProjectBtn.classList.add("material-symbols-outlined");
       editProjectBtn.textContent = "edit_square";
+      editProjectBtn.classList.add("edit-btn");
 
       const deleteProjectBtn = document.createElement("span");
       deleteProjectBtn.classList.add("material-symbols-outlined");
       deleteProjectBtn.textContent = "delete";
+      deleteProjectBtn.classList.add("delete-btn");
 
       editProjectBtn.addEventListener("click", (event) => {
         pubsub.publish("TriggerEditProject", event);
@@ -112,6 +114,10 @@ const uiControlller = (() => {
       projectCard.appendChild(cardLeft);
       menus.appendChild(projectCard);
     }
+
+    projectCard.addEventListener("click", (event) => {
+      pubsub.publish("SelectProject", event);
+    });
   };
 
   const displayTask = (task) => {
@@ -132,12 +138,15 @@ const uiControlller = (() => {
     const taskCheck = document.createElement("div");
     taskCheck.classList.add("task-check");
 
+    const priorityIndicator = document.createElement("div");
+    priorityIndicator.classList.add("priority-indicator");
+
     if (task.priority === "high") {
-      taskCheck.style.borderColor = "black";
+      priorityIndicator.style.backgroundColor = "red";
     } else if (task.priority === "medium") {
-      taskCheck.style.borderColor = "brown";
+      priorityIndicator.style.backgroundColor = "yellow";
     } else if (task.priority === "low") {
-      taskCheck.style.borderColor = "blue";
+      priorityIndicator.style.backgroundColor = "skyblue";
     }
 
     const taskTitle = document.createElement("p");
@@ -151,9 +160,11 @@ const uiControlller = (() => {
     const editTaskBtn = document.createElement("span");
     editTaskBtn.classList.add("material-symbols-outlined");
     editTaskBtn.textContent = "edit_square";
+    editTaskBtn.classList.add("edit-btn");
 
     const deleteBtn = document.createElement("span");
     deleteBtn.classList.add("material-symbols-outlined");
+    deleteBtn.classList.add("delete-btn");
     deleteBtn.textContent = "delete";
 
     if (task.completed === true) {
@@ -183,6 +194,7 @@ const uiControlller = (() => {
     cardRight.appendChild(editTaskBtn);
     cardRight.appendChild(deleteBtn);
 
+    taskCard.appendChild(priorityIndicator);
     taskCard.appendChild(cardLeft);
     taskCard.appendChild(cardRight);
 

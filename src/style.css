@@ -215,6 +215,7 @@ body {
 
 .task-card {
   margin-top: 10px;
+  position: relative;
 }
 
 .card-left > input {
@@ -385,13 +386,43 @@ select {
   font-family: inherit;
 }
 
+.priority-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  border-radius: inherit;
+}
+
+#showDoneTasksBtn:hover {
+  background-color: #18181b;
+  cursor: pointer;
+}
+
 .project-card:hover,
 .create-project-btn:hover {
   background-color: #18181b;
 }
 
-.project-card:hover .card-right > span,
-.task-card:hover .card-right > span {
+.project-card:hover .edit-btn,
+.task-card:hover .edit-btn {
   color: inherit;
   cursor: pointer;
+}
+
+.project-card:hover .delete-btn,
+.task-card:hover .delete-btn {
+  color: #dc2626;
+  cursor: pointer;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+  scale: 1.1;
+}
+
+.cancel-btn:hover,
+.action-btn:hover {
+  scale: 1.05;
 }

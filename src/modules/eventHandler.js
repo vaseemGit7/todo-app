@@ -13,6 +13,7 @@ const eventHandler = (() => {
   const handleProjectSelection = (event) => {
     const currentProjectName = document.querySelector("#currentProjectName");
     const displayBanner = document.querySelector(".display-banner");
+    const addTaskBtn = document.querySelector(".addTask-btn");
 
     const projectCard = event.target.closest(".project-card");
     const isProjectCollection =
@@ -31,6 +32,9 @@ const eventHandler = (() => {
       const menuId = projectCard.getAttribute("data-menu-id");
       todoManager.setCurrentProject(menuId, "menu");
       console.log(`Current Menu: ${menuId}`);
+      if (addTaskBtn) {
+        addTaskBtn.remove();
+      }
     }
 
     const currentProject = todoManager.getCurrentProject();
