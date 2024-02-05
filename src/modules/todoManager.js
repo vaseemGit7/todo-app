@@ -23,6 +23,7 @@ const todoManager = (() => {
       priority,
       date,
       originId,
+      (completed = false),
     );
     saveData();
     return newTask;
@@ -106,6 +107,7 @@ const todoManager = (() => {
   const updateProject = (projectId, name, category) => {
     const selectedProject = projects.find((p) => p.id === Number(projectId));
     selectedProject.editProject(name, category);
+    updateAndSaveData();
   };
 
   const deleteProject = (projectId) => {
@@ -152,6 +154,7 @@ const todoManager = (() => {
     );
     selectedTask.setCompleted();
     console.log(selectedTask);
+    updateAndSaveData();
   };
 
   const getProjects = () => projects;
@@ -187,6 +190,7 @@ const todoManager = (() => {
             taskData.priority,
             taskData.date,
             taskData.originId,
+            taskData.completed,
           );
           project.addTask(task);
         });
