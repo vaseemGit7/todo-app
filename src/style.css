@@ -7,6 +7,18 @@
   box-sizing: border-box;
 }
 
+:root {
+  --dark-black: #171717;
+  --eerie-black: #262626;
+  --french-grey: #d1d5db;
+  --sea-salt: #fafafa;
+  --whitesmoke: #f5f5f5;
+  --timberwolf: #d4d4d4;
+  --platinum: #e5e5e5;
+  --orange: #c2410c;
+  --shamrock-green: #059669;
+}
+
 html {
   font-size: 62.5%;
   line-height: 1.6;
@@ -28,7 +40,7 @@ body {
 
 .sidebar {
   height: 100vh;
-  background-color: #27272a;
+  background-color: var(--eerie-black);
   color: white;
 }
 
@@ -45,6 +57,7 @@ body {
   justify-content: center;
   font-size: 3rem;
   font-weight: 700;
+  color: var(--sea-salt);
 }
 
 .workspace-header {
@@ -52,6 +65,8 @@ body {
   justify-content: space-between;
   font-size: 2rem;
   margin: 0 10px;
+  font-weight: 600;
+  color: var(--sea-salt);
 }
 
 .create-project-btn,
@@ -61,7 +76,7 @@ body {
   border: none;
   background-color: transparent;
   cursor: pointer;
-  color: #f3f4f6;
+  color: var(--platinum);
   gap: 10px;
   padding: 5px;
   border-radius: 5px;
@@ -89,10 +104,14 @@ body {
   border-radius: 10px;
   padding: 10px 15px;
   cursor: pointer;
+  color: var(--platinum);
+  font-weight: 600;
 }
 
 .project-card-active {
-  background-color: #18181b;
+  background-color: var(--dark-black);
+  color: var(--sea-salt);
+  font-weight: 650;
   scale: 1.03;
 }
 
@@ -124,7 +143,7 @@ body {
   position: relative;
   display: grid;
   grid-template-rows: 2fr 6fr max-content;
-  background-color: #171717;
+  background-color: var(--dark-black);
 }
 
 .display-board {
@@ -148,7 +167,7 @@ body {
   transform: translateX(-50%);
   font-size: 2.6rem;
   font-weight: 700;
-  color: #f5f5f5;
+  color: var(--sea-salt);
   border-radius: 5px;
 }
 
@@ -170,10 +189,20 @@ body {
   display: grid;
   grid-template-rows: max-content 1fr;
   grid-template-columns: 1fr;
-  background-color: #334155;
+  background-color: var(--platinum);
   margin-top: 10px;
   font-size: 1.8rem;
   border-radius: 5px;
+}
+
+.task-form input[type="text"],
+input[type="date"],
+select {
+  border: 2px solid var(--eerie-black);
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 1.8rem;
+  background-color: var(--whitesmoke);
 }
 
 .bottom-panel {
@@ -205,23 +234,29 @@ body {
 .task-card,
 .top-panel {
   display: flex;
-  background-color: #334155;
-  color: #fafafa;
+  background-color: transparent;
+  color: var(--sea-salt);
   align-items: center;
   justify-content: space-between;
   padding: 20px 20px;
   border-radius: 5px;
+  border: 2px solid var(--platinum);
+  font-weight: 500;
+}
+
+.top-panel {
+  color: var(--eerie-black);
+  background-color: var(--platinum);
 }
 
 .task-card {
-  margin-top: 10px;
+  margin-top: 20px;
   position: relative;
 }
 
 .card-left > input {
-  border: none;
   background-color: inherit;
-  color: inherit;
+  padding: 2px 5px;
 }
 
 .card-left,
@@ -236,15 +271,15 @@ body {
 }
 
 .task-check {
-  height: 22px;
-  width: 22px;
-  background-color: white;
+  height: 24px;
+  width: 24px;
+  background-color: transparent;
   border-radius: 5px;
-  border: 3px solid;
+  border: 3px solid var(--platinum);
 }
 
 .task-checked {
-  background-color: black;
+  background-color: var(--orange);
 }
 
 .task-done {
@@ -259,14 +294,12 @@ body {
   position: sticky;
   bottom: 0;
   font-size: 1.8rem;
-  background-color: #334155;
   width: 100%;
   padding: 10px;
 }
 
 .done-count {
   font-size: 1.8rem;
-  color: #f3f4f6;
   padding: 5px;
 }
 
@@ -277,20 +310,19 @@ body {
   transform: translate(-50%, -50%);
   border: none;
   border-radius: 10px;
-  background-color: #d1d5db;
+  background-color: var(--french-grey);
 }
 
 .form-header {
   display: flex;
-  background-color: #27272a;
+  background-color: var(--eerie-black);
   align-items: center;
   justify-content: space-between;
   padding: 5px;
-  /* border: 1px solid red; */
 }
 
 .form-header > p {
-  color: #d1d5db;
+  color: var(--sea-salt);
   font-size: 1.9rem;
   font-weight: 700;
 }
@@ -300,13 +332,14 @@ body {
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
-  background-color: #d1d5db;
-  width: 80px;
+  background-color: var(--timberwolf);
+  color: var(--eerie-black);
+  width: 100px;
 }
 
 .action-btn {
   background-color: #059669;
-  color: #f3f4f6;
+  color: var(--sea-salt);
 }
 
 .action-btn,
@@ -325,12 +358,12 @@ body {
 .addTask-btn {
   display: flex;
   justify-content: start;
-  background-color: #334155;
+  background-color: var(--timberwolf);
   width: 100%;
   border: none;
-  color: #f3f4f6;
+  color: var(--eerie-black);
   padding: 20px 20px;
-  margin-top: 10px;
+  margin-top: 30px;
   gap: 15px;
   border-radius: 5px;
 }
@@ -348,7 +381,7 @@ body {
 #projectNameInput {
   font-size: 1.6rem;
   padding: 5px;
-  width: 350px;
+  width: 420px;
   border: none;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -364,7 +397,7 @@ body {
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  background-color: #f3f4f6;
+  background-color: var(--whitesmoke);
   border-radius: 5px;
 }
 
@@ -378,36 +411,40 @@ body {
 }
 
 .radio-label input:checked + span {
-  border: 2px solid #27272a;
-}
-
-input,
-select {
-  font-family: inherit;
+  border: 2px solid var(--eerie-black);
 }
 
 .priority-indicator {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 0px;
   width: 5px;
   height: 100%;
-  border-radius: inherit;
+  border-radius: 2px 0 0 2px;
 }
 
 #showDoneTasksBtn:hover {
-  background-color: #18181b;
+  background-color: var(--orange);
   cursor: pointer;
+}
+
+.task-card:hover {
+  background-color: var(--timberwolf);
+  color: var(--eerie-black);
+}
+
+.task-card:hover .task-check {
+  border-color: var(--eerie-black);
 }
 
 .project-card:hover,
 .create-project-btn:hover {
-  background-color: #18181b;
+  background-color: var(--dark-black);
 }
 
 .project-card:hover .edit-btn,
 .task-card:hover .edit-btn {
-  color: inherit;
+  color: #0369a1;
   cursor: pointer;
 }
 
@@ -425,4 +462,10 @@ select {
 .cancel-btn:hover,
 .action-btn:hover {
   scale: 1.05;
+}
+
+.task-form input[type="text"]:focus,
+select:focus {
+  background-color: var(--eerie-black);
+  color: var(--sea-salt);
 }
