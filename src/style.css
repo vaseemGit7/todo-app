@@ -1,4 +1,3 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;600;700&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap");
 
 * {
@@ -25,8 +24,8 @@ html {
 }
 
 body {
-  /* font-family: "Roboto Mono", monospace; */
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif, system-ui, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 .disabled {
@@ -188,15 +187,16 @@ body {
 .task-form {
   display: grid;
   grid-template-rows: max-content 1fr;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   background-color: var(--platinum);
-  margin-top: 10px;
+  margin-top: 20px;
   font-size: 1.8rem;
   border-radius: 5px;
 }
 
 .task-form input[type="text"],
 input[type="date"],
+textarea,
 select {
   border: 2px solid var(--eerie-black);
   border-radius: 5px;
@@ -205,7 +205,24 @@ select {
   background-color: var(--whitesmoke);
 }
 
+.task-form textarea {
+  resize: none;
+  padding: 2px 5px;
+}
+
+.top-panel {
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  color: var(--eerie-black);
+  background-color: var(--platinum);
+  gap: 100px;
+  padding: 20px;
+}
+
 .bottom-panel {
+  grid-column: 1/3;
+  grid-row: 2/3;
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding: 0px 20px 20px;
@@ -213,12 +230,14 @@ select {
 }
 
 .left-panel {
+  grid-column: 1/2;
   display: grid;
   grid-template-rows: max-content;
   gap: 10px;
 }
 
 .right-panel {
+  grid-column: 2/3;
   display: grid;
   grid-template-rows: repeat(3, max-content);
   gap: 10px;
@@ -231,8 +250,7 @@ select {
   margin-top: 10px;
 }
 
-.task-card,
-.top-panel {
+.task-card {
   display: flex;
   background-color: transparent;
   color: var(--sea-salt);
@@ -244,9 +262,8 @@ select {
   font-weight: 500;
 }
 
-.top-panel {
-  color: var(--eerie-black);
-  background-color: var(--platinum);
+.top-panel > .card-right {
+  justify-content: end;
 }
 
 .task-card {
@@ -257,6 +274,7 @@ select {
 .card-left > input {
   background-color: inherit;
   padding: 2px 5px;
+  width: 100%;
 }
 
 .card-left,
@@ -279,10 +297,13 @@ select {
 }
 
 .task-checked {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--orange);
 }
 
-.task-done {
+.task-done p {
   text-decoration: line-through;
   color: gray;
 }
@@ -338,7 +359,7 @@ select {
 }
 
 .action-btn {
-  background-color: #059669;
+  background-color: var(--shamrock-green);
   color: var(--sea-salt);
 }
 
@@ -379,6 +400,7 @@ select {
 }
 
 #projectNameInput {
+  font-family: inherit;
   font-size: 1.6rem;
   padding: 5px;
   width: 420px;
@@ -417,10 +439,10 @@ select {
 .priority-indicator {
   position: absolute;
   top: 0;
-  left: 0px;
-  width: 5px;
-  height: 100%;
-  border-radius: 2px 0 0 2px;
+  left: -1px;
+  width: 7px;
+  height: calc(100% + 2px);
+  border-radius: 4px 0 0 4px;
 }
 
 #showDoneTasksBtn:hover {
@@ -465,6 +487,7 @@ select {
 }
 
 .task-form input[type="text"]:focus,
+textarea:focus,
 select:focus {
   background-color: var(--eerie-black);
   color: var(--sea-salt);

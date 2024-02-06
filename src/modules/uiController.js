@@ -141,11 +141,11 @@ const uiControlller = (() => {
     priorityIndicator.classList.add("priority-indicator");
 
     if (task.priority === "high") {
-      priorityIndicator.style.backgroundColor = "red";
+      priorityIndicator.style.backgroundColor = "#F20574";
     } else if (task.priority === "medium") {
-      priorityIndicator.style.backgroundColor = "yellow";
+      priorityIndicator.style.backgroundColor = "#0583F2";
     } else if (task.priority === "low") {
-      priorityIndicator.style.backgroundColor = "skyblue";
+      priorityIndicator.style.backgroundColor = "#05F26C";
     }
 
     const taskTitle = document.createElement("p");
@@ -166,8 +166,13 @@ const uiControlller = (() => {
     deleteBtn.classList.add("delete-btn");
     deleteBtn.textContent = "delete";
 
+    const checkIcon = document.createElement("span");
+    checkIcon.textContent = "done";
+    checkIcon.classList.add("material-symbols-outlined");
+
     if (task.completed === true) {
       taskCard.classList.add("task-done");
+      taskCheck.appendChild(checkIcon);
       taskCheck.classList.add("task-checked");
     }
 
@@ -422,8 +427,7 @@ const uiControlller = (() => {
 
     const descriptionLabel = document.createElement("label");
     descriptionLabel.textContent = "Description";
-    const descriptionInput = document.createElement("input");
-    descriptionInput.type = "text";
+    const descriptionInput = document.createElement("textarea");
     descriptionInput.id = "descriptionInput";
     descriptionInput.name = "description";
 

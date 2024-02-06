@@ -257,6 +257,7 @@ const eventHandler = (() => {
   window.onload = () => {
     const currentProjectName = document.querySelector("#currentProjectName");
     const displayBanner = document.querySelector(".display-banner");
+    const inboxCard = document.querySelector(`[data-menu-id = "1"]`);
 
     const currentProject = todoManager.getCurrentProject();
     currentProjectName.textContent = currentProject.name;
@@ -265,6 +266,8 @@ const eventHandler = (() => {
       const banner = bannerSrc.default;
       displayBanner.style.backgroundImage = `url(${banner})`;
     });
+
+    inboxCard.classList.add("project-card-active");
 
     pubsub.publish("UpdateTasks");
   };
