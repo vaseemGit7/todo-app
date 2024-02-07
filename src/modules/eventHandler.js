@@ -77,6 +77,7 @@ const eventHandler = (() => {
 
   const handleEditProject = (event) => {
     event.preventDefault();
+    event.stopPropagation();
 
     const projectCard = event.target.closest(".project-card");
     const projectId = projectCard.getAttribute("data-project-id");
@@ -91,6 +92,9 @@ const eventHandler = (() => {
   const handleEditProjectSubmit = (event) => {
     event.preventDefault();
 
+    const currentProjectName = document.querySelector("#currentProjectName");
+    const displayBanner = document.querySelector(".display-banner");
+
     const projectForm = event.target.closest("#projectForm");
     const projectId = projectForm.getAttribute("data-project-id");
 
@@ -101,10 +105,20 @@ const eventHandler = (() => {
 
     todoManager.updateProject(projectId, projectName, projectCategory);
     dialogModal.close();
+
+    currentProjectName.textContent = projectName;
+
+    importIcon(projectCategory).then((bannerSrc) => {
+      const banner = bannerSrc.default;
+      displayBanner.style.backgroundImage = `url(${banner})`;
+    });
+
     pubsub.publish("UpdateProjects");
   };
 
   const handleProjectDeletion = (event) => {
+    event.stopPropagation();
+
     const projectCard = event.target.closest(".project-card");
     const projectId = projectCard.getAttribute("data-project-id");
 
@@ -134,12 +148,6 @@ const eventHandler = (() => {
 
   const handleTaskForm = () => {
     pubsub.publish("CreateTaskForm", { action: "add" });
-
-    const taskForm = document.querySelector(".task-form");
-    taskForm.classList.remove("disabled");
-
-    const addTaskBtn = document.querySelector(".addTask-btn");
-    addTaskBtn.classList.add("disabled");
   };
 
   const handleAddProject = (event) => {
@@ -160,6 +168,8 @@ const eventHandler = (() => {
   const handleAddTask = (event) => {
     event.preventDefault();
 
+    const currentlyDisplayedForm = document.getElementById("taskFormAdd");
+
     const title = document.querySelector("#titleInput").value;
     const description = document.querySelector("#descriptionInput").value;
     const priority = document.querySelector("#priorityInput").value;
@@ -176,16 +186,16 @@ const eventHandler = (() => {
 
     todoManager.addTaskToProject(currentProject, newTask);
 
-    const taskForm = document.querySelector(".task-form");
-    taskForm.classList.add("disabled");
-
-    const addTaskBtn = document.querySelector(".addTask-btn");
-    addTaskBtn.classList.remove("disabled");
+    if (currentlyDisplayedForm) {
+      currentlyDisplayedForm.remove();
+      pubsub.publish("CreateAddTaskBtn");
+    }
 
     pubsub.publish("UpdateTasks");
   };
 
   const handleEditTask = (event) => {
+    event.stopPropagation();
     const currentlyDisplayedForm = document.getElementById("taskFormEdit");
 
     if (currentlyDisplayedForm) {

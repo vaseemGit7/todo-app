@@ -18,6 +18,11 @@
   --shamrock-green: #059669;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 html {
   font-size: 62.5%;
   line-height: 1.6;
@@ -28,17 +33,32 @@ body {
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+.material-symbols-outlined {
+  display: flex;
+  align-items: center;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+  font-size: 2.2rem;
+}
+
+.material-symbols-outlined-active {
+  font-variation-settings: "FILL" 1;
+}
+
 .disabled {
   display: none !important;
 }
 
 .app-container {
+  height: 100%;
   display: grid;
   grid-template-columns: 1fr 5fr;
 }
 
 .sidebar {
-  height: 100vh;
   background-color: var(--eerie-black);
   color: white;
 }
@@ -56,7 +76,15 @@ body {
   justify-content: center;
   font-size: 3rem;
   font-weight: 700;
-  color: var(--sea-salt);
+  background: linear-gradient(
+    90deg,
+    #f4ddff -3.91%,
+    #cdd5ef 39.6%,
+    #ffdcdc 67.65%,
+    #bdeee5 106%
+  );
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .workspace-header {
@@ -66,19 +94,6 @@ body {
   margin: 0 10px;
   font-weight: 600;
   color: var(--sea-salt);
-}
-
-.create-project-btn,
-#showDoneTasksBtn {
-  display: flex;
-  align-items: center;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: var(--platinum);
-  gap: 10px;
-  padding: 5px;
-  border-radius: 5px;
 }
 
 .menus-section,
@@ -123,25 +138,11 @@ body {
   width: 24px;
 }
 
-.material-symbols-outlined {
-  display: flex;
-  align-items: center;
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 400,
-    "GRAD" 0,
-    "opsz" 24;
-  font-size: 2.2rem;
-}
-
-.material-symbols-outlined-active {
-  font-variation-settings: "FILL" 1;
-}
-
 .content {
+  height: 100%;
   position: relative;
   display: grid;
-  grid-template-rows: 2fr 6fr max-content;
+  grid-template-rows: max-content 6fr max-content;
   background-color: var(--dark-black);
 }
 
@@ -155,6 +156,7 @@ body {
   background-size: cover;
   height: 100%;
   width: 100%;
+  height: 300px;
 }
 
 .display-project-name {
@@ -166,7 +168,7 @@ body {
   transform: translateX(-50%);
   font-size: 2.6rem;
   font-weight: 700;
-  color: var(--sea-salt);
+  color: var(--dark-black);
   border-radius: 5px;
 }
 
@@ -250,31 +252,28 @@ select {
   margin-top: 10px;
 }
 
-.task-card {
-  display: flex;
-  background-color: transparent;
-  color: var(--sea-salt);
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 20px;
-  border-radius: 5px;
-  border: 2px solid var(--platinum);
-  font-weight: 500;
-}
-
 .top-panel > .card-right {
   justify-content: end;
-}
-
-.task-card {
-  margin-top: 20px;
-  position: relative;
 }
 
 .card-left > input {
   background-color: inherit;
   padding: 2px 5px;
   width: 100%;
+}
+
+.task-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  color: var(--sea-salt);
+  padding: 20px 20px;
+  font-weight: 500;
+  margin-top: 20px;
+  border: 2px solid var(--platinum);
+  border-radius: 5px;
 }
 
 .card-left,
@@ -294,6 +293,7 @@ select {
   background-color: transparent;
   border-radius: 5px;
   border: 3px solid var(--platinum);
+  cursor: pointer;
 }
 
 .task-checked {
@@ -317,6 +317,7 @@ select {
   font-size: 1.8rem;
   width: 100%;
   padding: 10px;
+  background: rgba(38, 38, 38, 0.5);
 }
 
 .done-count {
@@ -346,47 +347,6 @@ select {
   color: var(--sea-salt);
   font-size: 1.9rem;
   font-weight: 700;
-}
-
-.cancel-btn,
-.action-btn {
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  background-color: var(--timberwolf);
-  color: var(--eerie-black);
-  width: 100px;
-}
-
-.action-btn {
-  background-color: var(--shamrock-green);
-  color: var(--sea-salt);
-}
-
-.action-btn,
-.addTask-btn,
-.cancel-btn,
-#showDoneTasksBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: inherit;
-  font-size: 1.8rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.addTask-btn {
-  display: flex;
-  justify-content: start;
-  background-color: var(--timberwolf);
-  width: 100%;
-  border: none;
-  color: var(--eerie-black);
-  padding: 20px 20px;
-  margin-top: 30px;
-  gap: 15px;
-  border-radius: 5px;
 }
 
 .form-body {
@@ -445,6 +405,59 @@ select {
   border-radius: 4px 0 0 4px;
 }
 
+.cancel-btn,
+.action-btn {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: var(--timberwolf);
+  color: var(--eerie-black);
+  width: 100px;
+}
+
+.action-btn {
+  background-color: var(--shamrock-green);
+  color: var(--sea-salt);
+}
+
+.action-btn,
+.addTask-btn,
+.cancel-btn,
+#showDoneTasksBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.addTask-btn {
+  justify-content: start;
+  background-color: var(--timberwolf);
+  width: 100%;
+  border: none;
+  color: var(--eerie-black);
+  padding: 20px 20px;
+  margin-top: 30px;
+  gap: 15px;
+  border-radius: 5px;
+}
+
+.create-project-btn,
+#showDoneTasksBtn {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--platinum);
+  gap: 10px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
 #showDoneTasksBtn:hover {
   background-color: var(--orange);
   cursor: pointer;
@@ -491,4 +504,8 @@ textarea:focus,
 select:focus {
   background-color: var(--eerie-black);
   color: var(--sea-salt);
+}
+
+.dialog-modal::backdrop {
+  backdrop-filter: blur(2px);
 }

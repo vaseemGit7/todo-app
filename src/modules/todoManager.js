@@ -15,6 +15,7 @@ const todoManager = (() => {
   };
 
   const createTask = (title, description, priority, date, originId) => {
+    const completed = false;
     const todoIdCounter = generateUniqueId();
     const newTask = new Task(
       todoIdCounter,
@@ -23,7 +24,7 @@ const todoManager = (() => {
       priority,
       date,
       originId,
-      (completed = false),
+      completed,
     );
     saveData();
     return newTask;

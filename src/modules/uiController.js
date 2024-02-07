@@ -29,8 +29,6 @@ const uiControlller = (() => {
     tasks.forEach((task) => {
       if (task.completed === true) {
         counter++;
-      } else if (counter > 0) {
-        counter--;
       }
     });
 
@@ -58,10 +56,6 @@ const uiControlller = (() => {
     const projectNav = document.createElement("div");
     projectNav.textContent = project.name;
     projectNav.classList.add("project-nav");
-
-    // projectNav.addEventListener("click", (event) => {
-    //   pubsub.publish("SelectProject", event);
-    // });
 
     const projectCardIcon = document.createElement("div");
     projectCardIcon.classList.add("project-card-icon");
@@ -339,6 +333,8 @@ const uiControlller = (() => {
     if (action === "add") {
       actionBtn.textContent = "Add";
 
+      defaultLabel.querySelector('input[type="radio"]').checked = true;
+
       actionBtn.addEventListener("click", (event) => {
         pubsub.publish("AddProject", event);
       });
@@ -394,6 +390,7 @@ const uiControlller = (() => {
     titleInput.type = "text";
     titleInput.id = "titleInput";
     titleInput.name = "title";
+    titleInput.required = true;
 
     const taskDate = document.createElement("p");
     taskDate.classList.add("task-date");
@@ -468,12 +465,31 @@ const uiControlller = (() => {
     const actionBtn = document.createElement("button");
     actionBtn.classList.add("action-btn");
 
+    const updateCustomValidity = () => {
+      titleInput.setCustomValidity(
+        titleInput.value.trim() ? "" : "This field cannot be empty",
+      );
+      dateInput.setCustomValidity(
+        dateInput.value ? "" : "Please choose Due Date",
+      );
+    };
+
+    titleInput.addEventListener("input", updateCustomValidity);
+    dateInput.addEventListener("input", updateCustomValidity);
+
     if (action === "add") {
       actionBtn.id = "addBtn";
       actionBtn.textContent = "Add";
 
       actionBtn.addEventListener("click", (event) => {
-        pubsub.publish("AddTask", event);
+        event.preventDefault();
+        updateCustomValidity();
+
+        if (taskForm.checkValidity()) {
+          pubsub.publish("AddTask", event);
+        } else {
+          taskForm.reportValidity();
+        }
       });
     }
 
@@ -493,7 +509,14 @@ const uiControlller = (() => {
       actionBtn.textContent = "Edit";
 
       actionBtn.addEventListener("click", (event) => {
-        pubsub.publish("EditTask", event);
+        event.preventDefault();
+        updateCustomValidity();
+
+        if (taskForm.checkValidity()) {
+          pubsub.publish("EditTask", event);
+        } else {
+          taskForm.reportValidity();
+        }
       });
     }
 
@@ -517,7 +540,9 @@ const uiControlller = (() => {
 
     if (action === "add") {
       taskForm.id = "taskFormAdd";
-      tasksAddPopup.appendChild(taskForm);
+      const addTaskBtn = document.querySelector(".addTask-btn");
+
+      addTaskBtn.parentElement.replaceChild(taskForm, addTaskBtn);
     }
 
     if (action === "edit") {
