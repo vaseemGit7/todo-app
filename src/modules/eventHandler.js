@@ -279,6 +279,11 @@ const eventHandler = (() => {
 
     inboxCard.classList.add("project-card-active");
 
+    const icon = inboxCard.querySelector(
+      ".project-card-icon .material-symbols-outlined",
+    );
+    icon.classList.add("material-symbols-outlined-active");
+
     pubsub.publish("UpdateTasks");
   };
   return {

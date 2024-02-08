@@ -390,7 +390,6 @@ const uiControlller = (() => {
     titleInput.type = "text";
     titleInput.id = "titleInput";
     titleInput.name = "title";
-    titleInput.required = true;
 
     const taskDate = document.createElement("p");
     taskDate.classList.add("task-date");
@@ -460,8 +459,6 @@ const uiControlller = (() => {
     cancelBtn.textContent = "Cancel";
     cancelBtn.classList.add("cancel-btn");
 
-    cancelBtn.addEventListener("click", () => renderTasks());
-
     const actionBtn = document.createElement("button");
     actionBtn.classList.add("action-btn");
 
@@ -476,6 +473,12 @@ const uiControlller = (() => {
 
     titleInput.addEventListener("input", updateCustomValidity);
     dateInput.addEventListener("input", updateCustomValidity);
+
+    cancelBtn.addEventListener("click", (event) => {
+      renderTasks();
+      titleInput.removeEventListener("input", updateCustomValidity);
+      dateInput.removeEventListener("input", updateCustomValidity);
+    });
 
     if (action === "add") {
       actionBtn.id = "addBtn";
