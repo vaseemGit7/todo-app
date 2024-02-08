@@ -17,7 +17,7 @@
 
 ## Screenshot
 
-![App Screenshot](![Screenshot from 2024-02-08 16-59-30](https://github.com/vaseemGit7/todo-app/assets/105648020/8201366f-5d46-4e54-b153-9a39e2027123))
+![Screenshot from 2024-02-08 16-59-30](https://github.com/vaseemGit7/todo-app/assets/105648020/8201366f-5d46-4e54-b153-9a39e2027123)
 
 
 ## Built with
