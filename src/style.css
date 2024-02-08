@@ -59,6 +59,9 @@ body {
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: var(--eerie-black);
   color: white;
 }
@@ -137,6 +140,26 @@ body {
 .project-icon {
   height: 2rem;
   width: 2rem;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 1rem;
+  gap: 1rem;
+}
+
+.profile-link > a {
+  text-decoration: none;
+  color: var(--whitesmoke);
+  font-size: 1.6rem;
+}
+
+ion-icon {
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
 }
 
 .content {
@@ -499,6 +522,11 @@ select {
 .cancel-btn:hover,
 .action-btn:hover {
   scale: 1.05;
+}
+
+.profile-link > a:hover {
+  color: var(--orange);
+  scale: 1.15;
 }
 
 .task-form input[type="text"]:focus,
